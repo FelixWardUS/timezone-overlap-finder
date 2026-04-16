@@ -145,6 +145,11 @@ export function buildWrappedSegments(range, timeZone) {
   const startMinutes = start.hour * 60 + start.minute;
   const endMinutes = end.hour * 60 + end.minute;
 
+  if (startDate === endDate && endMinutes < startMinutes) {
+    const elapsedMinutes = Math.round((range.endMs - range.startMs) / 60000);
+    return [{ startMinutes, endMinutes: startMinutes + elapsedMinutes }];
+  }
+
   if (startDate === endDate) {
     return [{ startMinutes, endMinutes }];
   }

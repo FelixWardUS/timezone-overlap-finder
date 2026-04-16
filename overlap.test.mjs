@@ -99,7 +99,7 @@ test('buildWrappedSegments does not split same-date fall-back clock reversal as 
   };
 
   assert.deepEqual(buildWrappedSegments(range, 'America/New_York'), [
-    { startMinutes: 90, endMinutes: 75 },
+    { startMinutes: 90, endMinutes: 135 },
   ]);
 });
 
