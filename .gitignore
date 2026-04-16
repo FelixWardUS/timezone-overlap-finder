@@ -1,5 +1,6 @@
 # Local brainstorming/mockup artifacts
 .superpowers/
+.worktrees/
 docs/superpowers/
 
 # Environment files
