@@ -247,22 +247,17 @@ body::before {
 .results-panel {
   padding: 18px;
   min-height: 100%;
-}
-
-#results-panel {
-  min-height: 100%;
   display: grid;
   place-items: center;
-  padding: 28px;
-  border-radius: 18px;
-  border: 1px dashed rgba(19, 32, 47, 0.14);
-  background: linear-gradient(180deg, rgba(31, 94, 255, 0.05), transparent);
+  border-radius: 24px;
+  border: 1px solid var(--border);
+  background: var(--panel-strong);
   color: var(--muted);
   text-align: center;
   line-height: 1.65;
 }
 
-#results-panel.is-loading {
+.results-panel.is-loading {
   color: var(--text);
   font-weight: 600;
 }

@@ -19,11 +19,9 @@ resultsPanel.setAttribute("aria-live", "polite");
 resultsPanel.classList.add("is-loading");
 
 resultsPanel.innerHTML = `
-  <div>
-    <p class="eyebrow">Loading</p>
-    <p>
-      The interactive overlap tool will appear here once the wiring is added in
-      the next task.
-    </p>
-  </div>
+  <p class="eyebrow">Loading</p>
+  <p>
+    The interactive overlap tool will appear here once the wiring is added in
+    the next task.
+  </p>
 `;
