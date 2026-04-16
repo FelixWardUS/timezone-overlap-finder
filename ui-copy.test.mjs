@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import {
   DEFAULT_LANGUAGE,
   SUPPORTED_LANGUAGES,
@@ -18,6 +19,8 @@ function collectLeafPaths(node, prefix = '') {
     return [path];
   });
 }
+
+const stylesheet = readFileSync(new URL('./styles.css', import.meta.url), 'utf8');
 
 test('supported languages stay in the approved order', () => {
   assert.deepEqual(
@@ -85,4 +88,13 @@ test('supported locales keep the English dictionary shape', () => {
       assert.equal(typeof value, 'string', `${language.code} missing ${path}`);
     }
   }
+});
+
+test('stylesheet includes compact masthead and RTL-safe day-view rules', () => {
+  assert.match(stylesheet, /\.masthead\s*\{/);
+  assert.match(stylesheet, /\.masthead__bar\s*\{/);
+  assert.match(stylesheet, /\.language-switcher\s*\{/);
+  assert.match(stylesheet, /html\[dir="rtl"\]\s+\.result-summary/);
+  assert.match(stylesheet, /html\[dir="rtl"\]\s+\.result-row/);
+  assert.match(stylesheet, /\.time-bar,\s*\n\.time-bar__scale\s*\{[\s\S]*direction:\s*ltr;/);
 });

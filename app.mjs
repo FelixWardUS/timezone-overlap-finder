@@ -182,12 +182,14 @@ function renderTimeBar(workingRange, overlapRange, timeZone) {
   const overlapSegments = overlapRange ? buildWrappedSegments(overlapRange, timeZone) : [];
 
   return `
-    <div class="time-bar" aria-hidden="true">
-      ${renderBarSegments(workingSegments, 'time-bar__segment time-bar__segment--working')}
-      ${renderBarSegments(overlapSegments, 'time-bar__segment time-bar__segment--overlap')}
-    </div>
-    <div class="time-bar__scale">
-      ${buildScaleLabels()}
+    <div class="time-bar-wrap" dir="ltr">
+      <div class="time-bar" aria-hidden="true">
+        ${renderBarSegments(workingSegments, 'time-bar__segment time-bar__segment--working')}
+        ${renderBarSegments(overlapSegments, 'time-bar__segment time-bar__segment--overlap')}
+      </div>
+      <div class="time-bar__scale">
+        ${buildScaleLabels()}
+      </div>
     </div>
   `;
 }
