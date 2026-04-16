@@ -15,15 +15,15 @@ const localDate = new Date(today.getTime() - today.getTimezoneOffset() * 60_000)
   .slice(0, 10);
 
 dateInput.value = localDate;
+resultsPanel.setAttribute("aria-live", "polite");
+resultsPanel.classList.add("is-loading");
 
 resultsPanel.innerHTML = `
-  <div class="results-panel__content is-loading" aria-live="polite">
-    <div>
-      <p class="eyebrow">Loading</p>
-      <p>
-        The interactive overlap tool will appear here once the wiring is added
-        in the next task.
-      </p>
-    </div>
+  <div>
+    <p class="eyebrow">Loading</p>
+    <p>
+      The interactive overlap tool will appear here once the wiring is added in
+      the next task.
+    </p>
   </div>
 `;

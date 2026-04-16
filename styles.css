@@ -1,7 +1,6 @@
 :root {
   color-scheme: light;
   --bg: #f4efe7;
-  --bg-accent: #e4ebf3;
   --panel: rgba(255, 255, 255, 0.78);
   --panel-strong: #ffffff;
   --text: #13202f;
@@ -250,7 +249,7 @@ body::before {
   min-height: 100%;
 }
 
-.results-panel__content {
+#results-panel {
   min-height: 100%;
   display: grid;
   place-items: center;
@@ -263,7 +262,7 @@ body::before {
   line-height: 1.65;
 }
 
-.results-panel__content.is-loading {
+#results-panel.is-loading {
   color: var(--text);
   font-weight: 600;
 }
