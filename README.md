@@ -6,7 +6,7 @@ A showcase-style overlap finder for comparing shared working hours across global
 
 - Compare schedules across 2 or 3 IANA time zones
 - Handle overnight shifts that wrap past midnight
-- Switch the interface across multiple supported languages
+- Switch the interface across 8 supported languages, including Arabic RTL
 - Show overlap windows in each participant's local time
 - Stay readable across desktop and mobile layouts
 
