@@ -1,6 +1,7 @@
 const DATE_RE = /^(\d{4})-(\d{2})-(\d{2})$/;
 const TIME_RE = /^(\d{2}):(\d{2})$/;
 const MINUTES_PER_DAY = 24 * 60;
+const MAX_FIXED_POINT_ITERATIONS = 8;
 
 function parseDate(value) {
   const match = DATE_RE.exec(value);
@@ -87,7 +88,8 @@ function localDateTimeToUtcMs(date, timeZone, time) {
   const localAsUtc = Date.UTC(year, month - 1, day, hour, minute, 0, 0);
   let utcMs = localAsUtc;
 
-  for (let i = 0; i < 8; i += 1) {
+  // Iterate until the guessed UTC instant stabilizes for the zone offset.
+  for (let i = 0; i < MAX_FIXED_POINT_ITERATIONS; i += 1) {
     const offsetMs = getTimeZoneOffsetMs(utcMs, timeZone);
     const nextUtcMs = localAsUtc - offsetMs;
     if (nextUtcMs === utcMs) {
@@ -143,7 +145,7 @@ export function buildWrappedSegments(range, timeZone) {
   const startMinutes = start.hour * 60 + start.minute;
   const endMinutes = end.hour * 60 + end.minute;
 
-  if (startDate === endDate && endMinutes >= startMinutes) {
+  if (startDate === endDate) {
     return [{ startMinutes, endMinutes }];
   }
 

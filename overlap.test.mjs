@@ -92,6 +92,17 @@ test('buildWrappedSegments omits a trailing zero-length segment at midnight', ()
   ]);
 });
 
+test('buildWrappedSegments does not split same-date fall-back clock reversal as midnight wrap', () => {
+  const range = {
+    startMs: Date.parse('2026-11-01T05:30:00.000Z'),
+    endMs: Date.parse('2026-11-01T06:15:00.000Z'),
+  };
+
+  assert.deepEqual(buildWrappedSegments(range, 'America/New_York'), [
+    { startMinutes: 90, endMinutes: 75 },
+  ]);
+});
+
 test('buildAbsoluteRange rejects local times that resolve differently', () => {
   assert.throws(
     () =>
