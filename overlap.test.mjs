@@ -3,6 +3,10 @@ import assert from 'node:assert/strict';
 import {
   buildAbsoluteRange,
   buildWrappedSegments,
+  computeOverlap,
+  formatRangeForZone,
+  formatTimeZoneLabel,
+  getSupportedTimeZones,
   intersectRanges,
 } from './overlap.mjs';
 
@@ -28,6 +32,24 @@ test('buildAbsoluteRange converts New York office hours to UTC in winter', () =>
   );
 });
 
+test('buildAbsoluteRange uses date-sensitive offsets for New York', () => {
+  const winter = buildAbsoluteRange({
+    date: '2026-01-15',
+    timeZone: 'America/New_York',
+    startTime: '09:00',
+    endTime: '10:00',
+  });
+  const summer = buildAbsoluteRange({
+    date: '2026-07-15',
+    timeZone: 'America/New_York',
+    startTime: '09:00',
+    endTime: '10:00',
+  });
+
+  assert.equal(new Date(winter.startMs).toISOString(), '2026-01-15T14:00:00.000Z');
+  assert.equal(new Date(summer.startMs).toISOString(), '2026-07-15T13:00:00.000Z');
+});
+
 test('buildAbsoluteRange pushes overnight Tokyo schedules into the next day', () => {
   const range = buildAbsoluteRange({
     date: '2026-01-15',
@@ -39,6 +61,31 @@ test('buildAbsoluteRange pushes overnight Tokyo schedules into the next day', ()
   assert.equal(new Date(range.startMs).toISOString(), '2026-01-15T13:00:00.000Z');
   assert.equal(new Date(range.endMs).toISOString(), '2026-01-15T21:00:00.000Z');
   assert.equal(range.overnight, true);
+});
+
+test('getSupportedTimeZones returns a list when supported and falls back to empty otherwise', () => {
+  const zones = getSupportedTimeZones();
+  assert.ok(Array.isArray(zones));
+});
+
+test('formatTimeZoneLabel makes zone identifiers easier to read', () => {
+  assert.equal(formatTimeZoneLabel('America/New_York'), 'America / New York');
+});
+
+test('formatRangeForZone formats a range label in the requested zone', () => {
+  const formatted = formatRangeForZone(
+    {
+      startMs: Date.parse('2026-01-15T14:00:00.000Z'),
+      endMs: Date.parse('2026-01-15T17:00:00.000Z'),
+    },
+    'Europe/London',
+  );
+
+  assert.deepEqual(formatted, {
+    start: '2:00 PM',
+    end: '5:00 PM',
+    label: '2:00 PM - 5:00 PM',
+  });
 });
 
 test('intersectRanges returns only the shared portion of every range', () => {
@@ -114,4 +161,84 @@ test('buildAbsoluteRange rejects local times that resolve differently', () => {
       }),
     /invalid local time/i,
   );
+});
+
+test('computeOverlap returns incomplete when required fields are missing', () => {
+  const result = computeOverlap([
+    {
+      date: '2026-01-15',
+      timeZone: 'America/New_York',
+      startTime: '09:00',
+    },
+    {
+      date: '2026-01-15',
+      timeZone: 'Europe/London',
+      startTime: '14:00',
+      endTime: '17:00',
+    },
+  ]);
+
+  assert.deepEqual(result, { status: 'incomplete' });
+});
+
+test('computeOverlap returns ready state for New York and London', () => {
+  const result = computeOverlap([
+    {
+      date: '2026-01-15',
+      timeZone: 'America/New_York',
+      startTime: '09:00',
+      endTime: '17:00',
+    },
+    {
+      date: '2026-01-15',
+      timeZone: 'Europe/London',
+      startTime: '14:00',
+      endTime: '17:00',
+    },
+  ]);
+
+  assert.equal(result.status, 'ready');
+  assert.deepEqual(result.overlap, {
+    startMs: Date.parse('2026-01-15T14:00:00.000Z'),
+    endMs: Date.parse('2026-01-15T17:00:00.000Z'),
+  });
+  assert.equal(formatRangeForZone(result.overlap, 'Europe/London').label, '2:00 PM - 5:00 PM');
+});
+
+test('computeOverlap returns no-overlap for New York and Tokyo', () => {
+  const result = computeOverlap([
+    {
+      date: '2026-01-15',
+      timeZone: 'America/New_York',
+      startTime: '09:00',
+      endTime: '12:00',
+    },
+    {
+      date: '2026-01-15',
+      timeZone: 'Asia/Tokyo',
+      startTime: '09:00',
+      endTime: '11:00',
+    },
+  ]);
+
+  assert.deepEqual(result, { status: 'no-overlap', overlap: null });
+});
+
+test('computeOverlap returns invalid with the first invalid entry index', () => {
+  const result = computeOverlap([
+    {
+      date: '2026-01-15',
+      timeZone: 'America/New_York',
+      startTime: '09:00',
+      endTime: '09:00',
+    },
+    {
+      date: '2026-01-15',
+      timeZone: 'Europe/London',
+      startTime: '14:00',
+      endTime: '17:00',
+    },
+  ]);
+
+  assert.deepEqual(result, { status: 'invalid', invalidIndex: 0 });
 });

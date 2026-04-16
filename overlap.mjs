@@ -169,3 +169,74 @@ export function buildWrappedSegments(range, timeZone) {
   segments.push({ startMinutes: 0, endMinutes });
   return segments;
 }
+
+function formatTime(value, timeZone) {
+  return new Intl.DateTimeFormat('en-US', {
+    timeZone,
+    calendar: 'iso8601',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  }).format(new Date(value));
+}
+
+function hasRequiredEntryFields(entry) {
+  return Boolean(entry && entry.date && entry.timeZone && entry.startTime && entry.endTime);
+}
+
+export function getSupportedTimeZones() {
+  if (typeof Intl.supportedValuesOf !== 'function') {
+    return [];
+  }
+
+  try {
+    return Intl.supportedValuesOf('timeZone');
+  } catch {
+    return [];
+  }
+}
+
+export function formatTimeZoneLabel(timeZone) {
+  return timeZone.replaceAll('/', ' / ').replaceAll('_', ' ');
+}
+
+export function formatRangeForZone(range, timeZone) {
+  const start = formatTime(range.startMs, timeZone);
+  const end = formatTime(range.endMs, timeZone);
+
+  return {
+    start,
+    end,
+    label: `${start} - ${end}`,
+  };
+}
+
+export function computeOverlap(entries) {
+  if (!Array.isArray(entries) || entries.length === 0) {
+    return { status: 'incomplete' };
+  }
+
+  for (const entry of entries) {
+    if (!hasRequiredEntryFields(entry)) {
+      return { status: 'incomplete' };
+    }
+  }
+
+  const ranges = [];
+
+  for (let index = 0; index < entries.length; index += 1) {
+    const entry = entries[index];
+    try {
+      ranges.push(buildAbsoluteRange(entry));
+    } catch {
+      return { status: 'invalid', invalidIndex: index };
+    }
+  }
+
+  const overlap = intersectRanges(ranges);
+  if (overlap === null) {
+    return { status: 'no-overlap', overlap: null };
+  }
+
+  return { status: 'ready', overlap };
+}
