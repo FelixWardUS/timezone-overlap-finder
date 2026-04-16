@@ -52,13 +52,13 @@
               <div class="zone-grid" aria-label="Time zone cards">
                 <article class="zone-card">
                   <span class="zone-card__label">Time zone 1</span>
-                  <strong>Configure next task</strong>
-                  <p>Local working hours will anchor the overlap window.</p>
+                  <strong>Choose a primary location</strong>
+                  <p>Set the first local schedule that should participate in the overlap.</p>
                 </article>
                 <article class="zone-card">
                   <span class="zone-card__label">Time zone 2</span>
-                  <strong>Configure next task</strong>
-                  <p>Night shifts and late starts are handled in the planner.</p>
+                  <strong>Compare a second schedule</strong>
+                  <p>Overnight shifts and late starts are handled in the planner.</p>
                 </article>
                 <article class="zone-card">
                   <span class="zone-card__label">Time zone 3</span>
@@ -68,7 +68,7 @@
               </div>
 
               <button class="toggle-button" type="button">
-                Toggle local-time view
+                Add a third time zone
               </button>
             </section>
 
@@ -84,10 +84,10 @@
         <section class="explanation" aria-labelledby="explanation-heading">
           <h2 id="explanation-heading">How this works</h2>
           <p>
-            The next task will wire the form to actual time zone selection and
-            overlap calculations. This shell sets up the page structure,
-            visual rhythm, and loading state so the interactive version can be
-            dropped in without changing the layout.
+            Each local schedule is translated into a real time range for the
+            selected date, including overnight spans and daylight-saving
+            changes, and then the shared overlap is converted back into every
+            participant's local time.
           </p>
         </section>
       </main>
