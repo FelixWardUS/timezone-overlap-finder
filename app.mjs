@@ -374,6 +374,7 @@ function renderStaticCopy() {
   toolHeading.textContent = t('tool.heading');
   explanationHeading.textContent = t('explanation.heading');
   explanationCopy.textContent = t('explanation.body');
+  controlCard.setAttribute('aria-label', t('tool.controlsLabel'));
   resultsPanel.setAttribute('aria-label', t('results.heading'));
   compatNote.hidden = !usingFallbackTimeZones;
   compatNote.textContent = usingFallbackTimeZones ? t('tool.compatNote') : '';
@@ -388,7 +389,7 @@ function renderControls() {
         <input id="schedule-date" name="schedule-date" type="date" value="${escapeHtml(state.date)}" />
       </label>
     </div>
-    <div class="zone-grid" aria-label="Time zone cards">
+    <div class="zone-grid" aria-label="${escapeHtml(t('tool.zoneGridLabel'))}">
       ${activeEntries.map((entry, index) => renderZoneCard(entry, index)).join('')}
     </div>
     <div class="tool-shell__actions">

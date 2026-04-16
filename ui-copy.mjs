@@ -33,6 +33,8 @@ export const STRINGS = {
       eyebrow: 'Overlap planner',
       heading: 'Find shared working hours',
       language: 'Language',
+      controlsLabel: 'Schedule controls',
+      zoneGridLabel: 'Time zone cards',
       thirdZoneOn: 'Add a third time zone',
       thirdZoneOff: 'Remove the third time zone',
       compatNote:
@@ -97,6 +99,8 @@ export const STRINGS = {
       eyebrow: '重叠规划',
       heading: '查找共享工作时间',
       language: '语言',
+      controlsLabel: '日程控制',
+      zoneGridLabel: '时区卡片',
       thirdZoneOn: '添加第三个时区',
       thirdZoneOff: '移除第三个时区',
       compatNote: '某些浏览器不会提供完整的 IANA 时区列表。此时会使用内置的备用列表。',
@@ -157,6 +161,8 @@ export const STRINGS = {
       eyebrow: 'ओवरलैप योजनाकार',
       heading: 'साझा कार्य घंटे खोजें',
       language: 'भाषा',
+      controlsLabel: 'शेड्यूल नियंत्रण',
+      zoneGridLabel: 'समय क्षेत्र कार्ड',
       thirdZoneOn: 'तीसरा समय क्षेत्र जोड़ें',
       thirdZoneOff: 'तीसरा समय क्षेत्र हटाएं',
       compatNote:
@@ -221,6 +227,8 @@ export const STRINGS = {
       eyebrow: 'Planificador de solapamientos',
       heading: 'Buscar horas de trabajo compartidas',
       language: 'Idioma',
+      controlsLabel: 'Controles del horario',
+      zoneGridLabel: 'Tarjetas de zona horaria',
       thirdZoneOn: 'Añadir una tercera zona horaria',
       thirdZoneOff: 'Quitar la tercera zona horaria',
       compatNote:
@@ -287,6 +295,8 @@ export const STRINGS = {
       eyebrow: 'مخطط التداخل',
       heading: 'اعثر على ساعات العمل المشتركة',
       language: 'اللغة',
+      controlsLabel: 'عناصر التحكم بالجدول',
+      zoneGridLabel: 'بطاقات المناطق الزمنية',
       thirdZoneOn: 'إضافة منطقة زمنية ثالثة',
       thirdZoneOff: 'إزالة المنطقة الزمنية الثالثة',
       compatNote:
@@ -352,6 +362,8 @@ export const STRINGS = {
       eyebrow: 'Planificateur de chevauchement',
       heading: 'Trouver les heures de travail communes',
       language: 'Langue',
+      controlsLabel: 'Commandes du planning',
+      zoneGridLabel: 'Cartes de fuseaux horaires',
       thirdZoneOn: 'Ajouter un troisième fuseau horaire',
       thirdZoneOff: 'Supprimer le troisième fuseau horaire',
       compatNote:
@@ -418,6 +430,8 @@ export const STRINGS = {
       eyebrow: 'Planejador de sobreposição',
       heading: 'Encontrar horas de trabalho em comum',
       language: 'Idioma',
+      controlsLabel: 'Controles da agenda',
+      zoneGridLabel: 'Cartões de fuso horário',
       thirdZoneOn: 'Adicionar um terceiro fuso horário',
       thirdZoneOff: 'Remover o terceiro fuso horário',
       compatNote:
@@ -483,6 +497,8 @@ export const STRINGS = {
       eyebrow: '重なりプランナー',
       heading: '共有される勤務時間を探す',
       language: '言語',
+      controlsLabel: 'スケジュール操作',
+      zoneGridLabel: 'タイムゾーンカード',
       thirdZoneOn: '3つ目のタイムゾーンを追加',
       thirdZoneOff: '3つ目のタイムゾーンを削除',
       compatNote:

@@ -53,6 +53,8 @@ test('translate returns Chinese UI copy for known keys', () => {
 
 test('translate exposes the page-shell copy needed by app rendering', () => {
   assert.equal(translate('en', 'tool.eyebrow'), 'Overlap planner');
+  assert.equal(translate('en', 'tool.controlsLabel'), 'Schedule controls');
+  assert.equal(translate('en', 'tool.zoneGridLabel'), 'Time zone cards');
   assert.equal(translate('en', 'results.readyEyebrow'), 'Shared hours');
   assert.equal(translate('en', 'results.emptyTitle'), 'Complete the schedule');
   assert.equal(
