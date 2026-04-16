@@ -6,8 +6,10 @@ import {
   getSupportedTimeZones,
 } from './overlap.mjs';
 import {
+  buildDocumentCopy,
   DEFAULT_LANGUAGE,
   SUPPORTED_LANGUAGES,
+  formatDisplayDate,
   getLanguage,
   translate,
 } from './ui-copy.mjs';
@@ -29,6 +31,7 @@ const toolEyebrow = document.querySelector('#tool-eyebrow');
 const toolHeading = document.querySelector('#tool-heading');
 const explanationHeading = document.querySelector('#explanation-heading');
 const explanationCopy = document.querySelector('#explanation-copy');
+const descriptionMeta = document.querySelector('meta[name="description"]');
 
 if (!mastheadRoot) {
   throw new Error('Missing required masthead root: #masthead-root');
@@ -281,7 +284,7 @@ function renderReadyState(entries, overlap) {
   const summary = t('summary.ready', {
     duration: getDurationLabel(overlap),
     count: entries.length,
-    date: state.date,
+    date: formatDisplayDate(state.language, state.date),
   });
   const rows = entries
     .map((entry) => {
@@ -363,6 +366,7 @@ function renderResultState(entries, result) {
 
 function renderStaticCopy() {
   const language = getLanguage(state.language);
+  const documentCopy = buildDocumentCopy(language.code);
   const languageOptionsHtml = renderLanguageOptions({
     languages: SUPPORTED_LANGUAGES,
     selectedLanguage: language.code,
@@ -388,6 +392,11 @@ function renderStaticCopy() {
   resultsPanel.setAttribute('aria-label', t('results.heading'));
   compatNote.hidden = !usingFallbackTimeZones;
   compatNote.textContent = usingFallbackTimeZones ? t('tool.compatNote') : '';
+  document.title = documentCopy.title;
+
+  if (descriptionMeta) {
+    descriptionMeta.setAttribute('content', documentCopy.description);
+  }
 }
 
 function renderControls() {

@@ -3,6 +3,8 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import {
   DEFAULT_LANGUAGE,
+  buildDocumentCopy,
+  formatDisplayDate,
   SUPPORTED_LANGUAGES,
   getLanguage,
   STRINGS,
@@ -47,6 +49,24 @@ test('translate interpolates summary variables', () => {
   });
 
   assert.equal(value, '3h shared across 2 time zones on 2026-04-16');
+});
+
+test('formatDisplayDate localizes ISO dates for the active language', () => {
+  assert.equal(formatDisplayDate('en', '2026-04-16'), 'Apr 16, 2026');
+  assert.equal(formatDisplayDate('zh-CN', '2026-04-16'), '2026年4月16日');
+});
+
+test('buildDocumentCopy derives localized title and description from UI copy', () => {
+  assert.deepEqual(buildDocumentCopy('en'), {
+    title: 'Find shared working hours | Timezone Overlap Finder',
+    description:
+      'Find overlapping working hours across two or three time zones without losing local-time context.',
+  });
+  assert.deepEqual(buildDocumentCopy('ar'), {
+    title: 'اعثر على ساعات العمل المشتركة | Timezone Overlap Finder',
+    description:
+      'اعثر على ساعات العمل المتداخلة عبر منطقتين أو ثلاث مناطق زمنية دون فقدان سياق الوقت المحلي.',
+  });
 });
 
 test('translate returns Chinese UI copy for known keys', () => {

@@ -657,6 +657,28 @@ export function getLanguage(code) {
   return SUPPORTED_LANGUAGES.find((language) => language.code === code) ?? DEFAULT_LANGUAGE_ENTRY;
 }
 
+export function formatDisplayDate(code, isoDate) {
+  const date = new Date(`${isoDate}T00:00:00.000Z`);
+
+  if (Number.isNaN(date.getTime())) {
+    return isoDate;
+  }
+
+  return new Intl.DateTimeFormat(getLanguage(code).code, {
+    dateStyle: 'medium',
+    timeZone: 'UTC',
+  }).format(date);
+}
+
+export function buildDocumentCopy(code) {
+  const languageCode = getLanguage(code).code;
+
+  return {
+    title: `${translate(languageCode, 'tool.heading')} | ${translate(languageCode, 'masthead.title')}`,
+    description: translate(languageCode, 'masthead.copy'),
+  };
+}
+
 export function translate(code, key, variables) {
   const languageCode = getLanguage(code).code;
   const source = STRINGS[languageCode] ?? STRINGS[DEFAULT_LANGUAGE];

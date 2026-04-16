@@ -1,12 +1,12 @@
 # Timezone Overlap Finder
 
-A showcase-style web tool for finding overlapping work hours across two or three time zones without losing each participant's local-time context.
+A showcase-style overlap finder for comparing shared working hours across global teams, with multilingual UI support and preserved local-time context for every participant.
 
 ## Features
 
 - Compare schedules across 2 or 3 IANA time zones
 - Handle overnight shifts that wrap past midnight
-- Reflect date changes caused by daylight saving time differences
+- Switch the interface across multiple supported languages
 - Show overlap windows in each participant's local time
 - Stay readable across desktop and mobile layouts
 
@@ -26,11 +26,12 @@ Then open `http://localhost:8000`.
 
 ## Usage
 
-1. Choose the planning date.
-2. Select two time zones and enter local start and end times.
-3. Add the optional third zone when you need a broader overlap check.
-4. Review the shared window summary and the local-time day view bars for each zone.
-5. Adjust the date or schedules to account for DST-driven date shifts and overnight coverage.
+1. Use the top-right language switcher if you want to view the interface in another language.
+2. Choose the planning date.
+3. Select two time zones and enter local start and end times.
+4. Add the optional third zone when you need a broader overlap check.
+5. Review the shared window summary and the local-time day view bars for each zone.
+6. Adjust the date or schedules to account for DST-driven date shifts and overnight coverage.
 
 ## Roadmap
 
