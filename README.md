@@ -10,7 +10,11 @@ A showcase-style overlap finder for comparing shared working hours across global
 - Show overlap windows in each participant's local time
 - Stay readable across desktop and mobile layouts
 
-## Demo / Screenshot
+## Demo
+
+  Live demo: https://FelixWardUS.github.io/timezone-overlap-finder/
+
+## Screenshot
 
 ![Timezone Overlap Finder screenshot](./assets/timezone-overlap-finder.png)
 
