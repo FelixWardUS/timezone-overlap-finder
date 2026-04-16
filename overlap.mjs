@@ -606,19 +606,31 @@ function formatMonthDay(value, timeZone) {
   return `${MONTH_LABELS[parts.month - 1]} ${parts.day}`;
 }
 
+function canUseTimeZone(timeZone) {
+  try {
+    new Intl.DateTimeFormat('en-US', {
+      timeZone,
+      calendar: 'iso8601',
+    }).format(new Date(0));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 function hasRequiredEntryFields(entry) {
   return Boolean(entry && entry.date && entry.timeZone && entry.startTime && entry.endTime);
 }
 
 export function getSupportedTimeZones() {
   if (typeof Intl.supportedValuesOf !== 'function') {
-    return FALLBACK_TIME_ZONES;
+    return FALLBACK_TIME_ZONES.filter(canUseTimeZone);
   }
 
   try {
     return Intl.supportedValuesOf('timeZone');
   } catch {
-    return FALLBACK_TIME_ZONES;
+    return FALLBACK_TIME_ZONES.filter(canUseTimeZone);
   }
 }
 

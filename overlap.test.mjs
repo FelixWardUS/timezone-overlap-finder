@@ -85,6 +85,36 @@ test('getSupportedTimeZones falls back to a maintained static IANA list', () => 
   }
 });
 
+test('getSupportedTimeZones fallback only returns zones usable by this runtime', () => {
+  const originalSupportedValuesOf = Intl.supportedValuesOf;
+  const originalDateTimeFormat = Intl.DateTimeFormat;
+
+  try {
+    Intl.supportedValuesOf = undefined;
+    Intl.DateTimeFormat = function DateTimeFormatProxy(locale, options = {}) {
+      if (options.timeZone === 'America/New_York') {
+        throw new RangeError('Unsupported time zone specified');
+      }
+
+      return new originalDateTimeFormat(locale, options);
+    };
+    Intl.DateTimeFormat.prototype = originalDateTimeFormat.prototype;
+
+    const zones = getSupportedTimeZones();
+
+    assert.ok(!zones.includes('America/New_York'));
+    assert.ok(zones.includes('Europe/London'));
+    assert.doesNotThrow(() => {
+      for (const zone of zones) {
+        new originalDateTimeFormat('en-US', { timeZone: zone }).format(new Date('2026-01-15T12:00:00.000Z'));
+      }
+    });
+  } finally {
+    Intl.supportedValuesOf = originalSupportedValuesOf;
+    Intl.DateTimeFormat = originalDateTimeFormat;
+  }
+});
+
 test('formatTimeZoneLabel makes zone identifiers easier to read', () => {
   assert.equal(formatTimeZoneLabel('America/New_York'), 'America / New York');
 });
@@ -265,6 +295,20 @@ test('computeOverlap returns ready state for three overlapping time zones', () =
     startMs: Date.parse('2026-01-15T14:00:00.000Z'),
     endMs: Date.parse('2026-01-15T18:00:00.000Z'),
   });
+});
+
+test('single-entry ready overlaps produce the working-hours label contract used by the app', () => {
+  const entry = {
+    date: '2026-01-15',
+    timeZone: 'Asia/Tokyo',
+    startTime: '22:00',
+    endTime: '06:00',
+  };
+
+  const result = computeOverlap([entry]);
+
+  assert.equal(result.status, 'ready');
+  assert.equal(formatRangeForZone(result.overlap, entry.timeZone).label, 'Jan 15, 10:00 PM - Jan 16, 6:00 AM');
 });
 
 test('computeOverlap returns no-overlap for New York and Tokyo', () => {
