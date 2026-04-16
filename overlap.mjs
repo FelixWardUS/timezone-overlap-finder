@@ -68,6 +68,19 @@ function getTimeZoneOffsetMs(utcMs, timeZone) {
   return Date.UTC(parts.year, parts.month - 1, parts.day, parts.hour, parts.minute, parts.second, 0) - utcMs;
 }
 
+function sameLocalDateTime(parts, date, time) {
+  const { year, month, day } = parseDate(date);
+  const { hour, minute } = parseTime(time);
+
+  return (
+    parts.year === year &&
+    parts.month === month &&
+    parts.day === day &&
+    parts.hour === hour &&
+    parts.minute === minute
+  );
+}
+
 function localDateTimeToUtcMs(date, timeZone, time) {
   const { year, month, day } = parseDate(date);
   const { hour, minute } = parseTime(time);
@@ -78,11 +91,19 @@ function localDateTimeToUtcMs(date, timeZone, time) {
     const offsetMs = getTimeZoneOffsetMs(utcMs, timeZone);
     const nextUtcMs = localAsUtc - offsetMs;
     if (nextUtcMs === utcMs) {
+      const resolved = getZonedParts(utcMs, timeZone);
+      if (!sameLocalDateTime(resolved, date, time)) {
+        throw new Error(`Invalid local time: ${date} ${time} in ${timeZone}`);
+      }
       return utcMs;
     }
     utcMs = nextUtcMs;
   }
 
+  const resolved = getZonedParts(utcMs, timeZone);
+  if (!sameLocalDateTime(resolved, date, time)) {
+    throw new Error(`Invalid local time: ${date} ${time} in ${timeZone}`);
+  }
   return utcMs;
 }
 
@@ -107,6 +128,10 @@ export function intersectRanges(ranges) {
   const startMs = Math.max(...ranges.map((range) => range.startMs));
   const endMs = Math.min(...ranges.map((range) => range.endMs));
 
+  if (endMs < startMs) {
+    return null;
+  }
+
   return { startMs, endMs };
 }
 
@@ -128,6 +153,10 @@ export function buildWrappedSegments(range, timeZone) {
   while (currentDate < endDate) {
     segments.push({ startMinutes: 0, endMinutes: MINUTES_PER_DAY });
     currentDate = addDays(currentDate, 1);
+  }
+
+  if (endMinutes === 0) {
+    return segments;
   }
 
   segments.push({ startMinutes: 0, endMinutes });

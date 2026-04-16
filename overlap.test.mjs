@@ -51,6 +51,15 @@ test('intersectRanges returns only the shared portion of every range', () => {
   assert.deepEqual(overlap, { startMs: 150, endMs: 180 });
 });
 
+test('intersectRanges returns null when ranges do not overlap', () => {
+  const overlap = intersectRanges([
+    { startMs: 100, endMs: 120 },
+    { startMs: 150, endMs: 200 },
+  ]);
+
+  assert.equal(overlap, null);
+});
+
 test('buildWrappedSegments splits overnight display bars at midnight', () => {
   const range = {
     startMs: Date.parse('2026-01-15T13:00:00.000Z'),
@@ -61,4 +70,28 @@ test('buildWrappedSegments splits overnight display bars at midnight', () => {
     { startMinutes: 1320, endMinutes: 1440 },
     { startMinutes: 0, endMinutes: 360 },
   ]);
+});
+
+test('buildWrappedSegments omits a trailing zero-length segment at midnight', () => {
+  const range = {
+    startMs: Date.parse('2026-01-15T13:00:00.000Z'),
+    endMs: Date.parse('2026-01-15T15:00:00.000Z'),
+  };
+
+  assert.deepEqual(buildWrappedSegments(range, 'Asia/Tokyo'), [
+    { startMinutes: 1320, endMinutes: 1440 },
+  ]);
+});
+
+test('buildAbsoluteRange rejects local times that resolve differently', () => {
+  assert.throws(
+    () =>
+      buildAbsoluteRange({
+        date: '2026-03-08',
+        timeZone: 'America/New_York',
+        startTime: '02:30',
+        endTime: '03:30',
+      }),
+    /invalid local time/i,
+  );
 });
