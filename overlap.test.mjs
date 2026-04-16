@@ -60,6 +60,15 @@ test('intersectRanges returns null when ranges do not overlap', () => {
   assert.equal(overlap, null);
 });
 
+test('intersectRanges returns null when ranges only touch at the boundary', () => {
+  const overlap = intersectRanges([
+    { startMs: 100, endMs: 150 },
+    { startMs: 150, endMs: 200 },
+  ]);
+
+  assert.equal(overlap, null);
+});
+
 test('buildWrappedSegments splits overnight display bars at midnight', () => {
   const range = {
     startMs: Date.parse('2026-01-15T13:00:00.000Z'),

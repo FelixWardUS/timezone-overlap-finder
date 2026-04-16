@@ -128,7 +128,7 @@ export function intersectRanges(ranges) {
   const startMs = Math.max(...ranges.map((range) => range.startMs));
   const endMs = Math.min(...ranges.map((range) => range.endMs));
 
-  if (endMs < startMs) {
+  if (endMs <= startMs) {
     return null;
   }
 
