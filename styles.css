@@ -25,7 +25,7 @@
   --radius-lg: 26px;
   --radius-md: 20px;
   --radius-sm: 16px;
-  font-family: "Manrope", "Segoe UI", sans-serif;
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 *,
@@ -378,6 +378,10 @@ select {
   font-weight: 800;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+}
+
+.time-zone-card__status[hidden] {
+  display: none;
 }
 
 .time-zone-card__times {
