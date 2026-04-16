@@ -376,6 +376,20 @@ body::before {
   font-size: 1rem;
 }
 
+.result-cell {
+  display: grid;
+  gap: 6px;
+}
+
+.result-cell__label {
+  display: none;
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .result-row__hours,
 .result-row__overlap {
   font-weight: 600;
@@ -466,6 +480,10 @@ body::before {
   .result-row,
   .result-row--header {
     grid-template-columns: 1fr;
+  }
+
+  .result-cell__label {
+    display: block;
   }
 }
 

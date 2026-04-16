@@ -140,12 +140,13 @@ function renderZoneOptions(selectedTimeZone) {
 function renderZoneCard(entry, index, invalid) {
   const number = index + 1;
   const invalidClass = invalid ? ' time-zone-card--invalid' : '';
+  const statusHidden = invalid ? '' : ' hidden';
 
   return `
     <article class="time-zone-card${invalidClass}">
       <div class="time-zone-card__header">
         <span class="zone-card__label">Time zone ${number}</span>
-        ${invalid ? '<span class="time-zone-card__status">Needs attention</span>' : ''}
+        <span class="time-zone-card__status"${statusHidden}>Needs attention</span>
       </div>
       <div class="field-group">
         <label class="field" for="time-zone-${number}">
@@ -216,12 +217,20 @@ function renderReadyState(entries, overlap) {
 
       return `
         <div class="result-row">
-          <div class="result-row__zone">
+          <div class="result-row__zone result-cell">
+            <span class="result-cell__label">Time zone</span>
             <strong>${escapeHtml(formatTimeZoneLabel(entry.timeZone))}</strong>
           </div>
-          <div class="result-row__hours">${escapeHtml(formatWorkingHours(entry))}</div>
-          <div class="result-row__overlap">${escapeHtml(overlapLabel)}</div>
-          <div class="result-row__bar">
+          <div class="result-row__hours result-cell">
+            <span class="result-cell__label">Working hours</span>
+            <span>${escapeHtml(formatWorkingHours(entry))}</span>
+          </div>
+          <div class="result-row__overlap result-cell">
+            <span class="result-cell__label">Overlap</span>
+            <span>${escapeHtml(overlapLabel)}</span>
+          </div>
+          <div class="result-row__bar result-cell">
+            <span class="result-cell__label">Day view</span>
             ${renderTimeBar(workingRange, overlap, entry.timeZone)}
           </div>
         </div>
@@ -304,13 +313,9 @@ function syncInvalidState(invalidIndex) {
     card.classList.toggle('time-zone-card--invalid', invalidIndex === index);
 
     const status = card.querySelector?.('.time-zone-card__status');
-    if (invalidIndex === index) {
-      if (!status) {
-        const header = card.querySelector?.('.time-zone-card__header');
-        header?.insertAdjacentHTML('beforeend', '<span class="time-zone-card__status">Needs attention</span>');
-      }
-    } else {
-      status?.remove();
+    if (status) {
+      status.hidden = invalidIndex !== index;
+      status.textContent = 'Needs attention';
     }
   });
 }
