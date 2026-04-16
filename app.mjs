@@ -278,10 +278,8 @@ function renderResultState(entries, result) {
   }
 }
 
-function render() {
+function renderControls() {
   const activeEntries = getActiveEntries();
-  const result = computeOverlap(activeEntries);
-
   controlCard.innerHTML = `
     <div class="field-group">
       <label class="field" for="schedule-date">
@@ -290,7 +288,7 @@ function render() {
       </label>
     </div>
     <div class="zone-grid" aria-label="Time zone cards">
-      ${activeEntries.map((entry, index) => renderZoneCard(entry, index, result.invalidIndex === index)).join('')}
+      ${activeEntries.map((entry, index) => renderZoneCard(entry, index, false)).join('')}
     </div>
     <div class="tool-shell__actions">
       <button class="toggle-button" type="button" data-action="toggle-third-zone">
@@ -298,8 +296,30 @@ function render() {
       </button>
     </div>
   `;
+}
 
+function syncInvalidState(invalidIndex) {
+  const cards = controlCard.querySelectorAll?.('.time-zone-card') ?? [];
+  cards.forEach((card, index) => {
+    card.classList.toggle('time-zone-card--invalid', invalidIndex === index);
+
+    const status = card.querySelector?.('.time-zone-card__status');
+    if (invalidIndex === index) {
+      if (!status) {
+        const header = card.querySelector?.('.time-zone-card__header');
+        header?.insertAdjacentHTML('beforeend', '<span class="time-zone-card__status">Needs attention</span>');
+      }
+    } else {
+      status?.remove();
+    }
+  });
+}
+
+function renderResults() {
+  const activeEntries = getActiveEntries();
+  const result = computeOverlap(activeEntries);
   resultsPanel.innerHTML = renderResultState(activeEntries, result);
+  syncInvalidState(result.invalidIndex);
 }
 
 function updateEntry(index, field, value) {
@@ -317,7 +337,7 @@ function handleFieldChange(event) {
 
   if (target.id === 'schedule-date') {
     state.date = target.value;
-    render();
+    renderResults();
     return;
   }
 
@@ -326,12 +346,11 @@ function handleFieldChange(event) {
 
   if (Number.isInteger(index) && field) {
     updateEntry(index, field, target.value);
-    render();
+    renderResults();
   }
 }
 
 controlCard.addEventListener('input', handleFieldChange);
-controlCard.addEventListener('change', handleFieldChange);
 
 controlCard.addEventListener('click', (event) => {
   const target = event.target;
@@ -345,7 +364,9 @@ controlCard.addEventListener('click', (event) => {
   }
 
   state.thirdZoneEnabled = !state.thirdZoneEnabled;
-  render();
+  renderControls();
+  renderResults();
 });
 
-render();
+renderControls();
+renderResults();

@@ -314,11 +314,6 @@ body::before {
   outline-offset: 2px;
 }
 
-.results-panel.is-loading {
-  color: var(--text);
-  font-weight: 600;
-}
-
 .result-state {
   width: 100%;
 }
@@ -471,10 +466,6 @@ body::before {
   .result-row,
   .result-row--header {
     grid-template-columns: 1fr;
-  }
-
-  .result-row--header {
-    display: none;
   }
 }
 
