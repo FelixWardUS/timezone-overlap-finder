@@ -51,6 +51,16 @@ test('translate returns Chinese UI copy for known keys', () => {
   assert.notEqual(translate('zh-CN', 'toolbar.addThirdZone'), translate('en', 'toolbar.addThirdZone'));
 });
 
+test('translate exposes the page-shell copy needed by app rendering', () => {
+  assert.equal(translate('en', 'tool.eyebrow'), 'Overlap planner');
+  assert.equal(translate('en', 'results.readyEyebrow'), 'Shared hours');
+  assert.equal(translate('en', 'results.emptyTitle'), 'Complete the schedule');
+  assert.equal(
+    translate('en', 'results.emptyBody'),
+    'Add a time zone and both working-hour endpoints for every active card.',
+  );
+});
+
 test('supported locales throw when a translation key is missing', () => {
   assert.equal(translate('en', 'tool.language'), 'Language');
   assert.throws(() => translate('zh-CN', 'tool.notARealKey'), /Missing translation/);

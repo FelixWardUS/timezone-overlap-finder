@@ -31,6 +31,8 @@ test('renderMasthead uses the compact masthead layout hooks', () => {
   });
 
   assert.match(html, /class="masthead"/);
+  assert.match(html, /lang="en"/);
+  assert.match(html, /dir="ltr"/);
   assert.match(html, /class="masthead__bar"/);
   assert.match(html, /aria-label="Language"/);
   assert.match(html, /id="ui-language"/);
@@ -55,6 +57,7 @@ test('renderMasthead escapes content and propagates rtl direction', () => {
     languageOptionsHtml: '<option value="ar" selected>العربية</option>',
   });
 
+  assert.match(html, /lang="ar"/);
   assert.match(html, /dir="rtl"/);
   assert.match(html, /Tool &amp; more/);
   assert.match(html, /Timezone &lt;Overlap&gt; Finder/);

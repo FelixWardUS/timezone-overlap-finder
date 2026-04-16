@@ -21,7 +21,7 @@ export function renderLanguageOptions({ languages, selectedLanguage }) {
 
 export function renderMasthead({ language, masthead, chips, languageLabel, languageOptionsHtml }) {
   return `
-    <header class="masthead">
+    <header class="masthead" lang="${escapeHtml(language.code)}" dir="${escapeHtml(language.dir)}">
       <div class="masthead__bar">
         <p class="eyebrow">${escapeHtml(masthead.eyebrow)}</p>
         <label class="language-switcher" aria-label="${escapeHtml(languageLabel)}">

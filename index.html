@@ -12,83 +12,27 @@
   </head>
   <body>
     <div class="page-shell">
-      <header class="hero">
-        <p class="eyebrow">Productivity tool</p>
-        <h1>Timezone Overlap Finder</h1>
-        <p class="hero-copy">
-          Find overlapping working hours across two or three time zones,
-          including overnight schedules and date-sensitive shifts, without
-          losing the local-time context that makes planning possible.
-        </p>
-
-        <ul class="feature-strip" aria-label="Highlights">
-          <li>2&ndash;3 time zones</li>
-          <li>Overnight schedules</li>
-          <li>Local-time overlap view</li>
-        </ul>
-      </header>
+      <div id="masthead-root"></div>
 
       <main>
         <section class="tool-shell" aria-labelledby="tool-heading">
           <div class="tool-shell__intro">
             <div>
-              <p class="eyebrow">Overlap planner</p>
-              <h2 id="tool-heading">Find shared working hours</h2>
+              <p class="eyebrow" id="tool-eyebrow"></p>
+              <h2 id="tool-heading"></h2>
             </div>
-            <p class="compat-note">
-              Some browsers do not expose the full IANA time zone list. When
-              that happens, this tool will stay usable with the supported
-              subset instead of breaking.
-            </p>
+            <p class="compat-note" hidden></p>
           </div>
 
           <div class="tool-shell__layout">
-            <section class="control-card" aria-label="Schedule controls">
-              <label class="field" for="schedule-date">
-                <span>Date</span>
-                <input id="schedule-date" name="schedule-date" type="date" />
-              </label>
-
-              <div class="zone-grid" aria-label="Time zone cards">
-                <article class="zone-card">
-                  <span class="zone-card__label">Time zone 1</span>
-                  <strong>Choose a primary location</strong>
-                  <p>Set the first local schedule that should participate in the overlap.</p>
-                </article>
-                <article class="zone-card">
-                  <span class="zone-card__label">Time zone 2</span>
-                  <strong>Compare a second schedule</strong>
-                  <p>Overnight shifts and late starts are handled in the planner.</p>
-                </article>
-                <article class="zone-card">
-                  <span class="zone-card__label">Time zone 3</span>
-                  <strong>Optional third zone</strong>
-                  <p>Keep the shell ready for cross-region planning.</p>
-                </article>
-              </div>
-
-              <button class="toggle-button" type="button">
-                Add a third time zone
-              </button>
-            </section>
-
-            <section
-              id="results-panel"
-              class="results-panel"
-              aria-label="Overlap results"
-            >
-            </section>
+            <section class="control-card" aria-label="Schedule controls"></section>
+            <section id="results-panel" class="results-panel" aria-label="Overlap results"></section>
           </div>
         </section>
 
         <section class="explanation" aria-labelledby="explanation-heading">
-          <h2 id="explanation-heading">How this works</h2>
-          <p>
-            Each local schedule is translated into a real time range for the
-            selected date, including overnight spans and daylight-saving
-            changes, and then the shared overlap is converted back into every
-            participant's local time.
-          </p>
+          <h2 id="explanation-heading"></h2>
+          <p id="explanation-copy"></p>
         </section>
       </main>
     </div>

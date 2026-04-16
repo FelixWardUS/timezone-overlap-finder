@@ -30,6 +30,7 @@ export const STRINGS = {
       removeThirdZone: 'Remove the third time zone',
     },
     tool: {
+      eyebrow: 'Overlap planner',
       heading: 'Find shared working hours',
       language: 'Language',
       thirdZoneOn: 'Add a third time zone',
@@ -46,9 +47,18 @@ export const STRINGS = {
     },
     results: {
       heading: 'Overlap results',
+      readyEyebrow: 'Shared hours',
       noOverlap: 'No overlap on this date',
+      noOverlapTitle: 'No overlap on this date',
+      noOverlapBody: 'Try adjusting one schedule or choose a different day.',
       invalid: 'A time range needs both a start and an end time.',
+      invalidTitle: 'One schedule needs attention',
+      invalidBody:
+        'Check for matching start and end times or a local time that does not exist on this date.',
       empty: 'Add a time zone and both working-hour endpoints for every active card.',
+      emptyTitle: 'Complete the schedule',
+      emptyBody: 'Add a time zone and both working-hour endpoints for every active card.',
+      invalidStatus: 'Needs attention',
       readyNote:
         'Each row keeps the local working window visible and highlights the shared overlap.',
       labels: {
@@ -84,6 +94,7 @@ export const STRINGS = {
       removeThirdZone: '移除第三个时区',
     },
     tool: {
+      eyebrow: '重叠规划',
       heading: '查找共享工作时间',
       language: '语言',
       thirdZoneOn: '添加第三个时区',
@@ -99,9 +110,17 @@ export const STRINGS = {
     },
     results: {
       heading: '重叠结果',
+      readyEyebrow: '共享时段',
       noOverlap: '这一天没有重叠时段',
+      noOverlapTitle: '这一天没有重叠时段',
+      noOverlapBody: '请尝试调整某个日程，或改选其他日期。',
       invalid: '时间范围需要同时包含开始和结束时间。',
+      invalidTitle: '有一个日程需要检查',
+      invalidBody: '请检查开始和结束时间是否匹配，或确认该日期下该本地时间是否存在。',
       empty: '请为每个启用的卡片选择时区并填写完整的工作时间。',
+      emptyTitle: '请先完成日程',
+      emptyBody: '请为每个启用的卡片选择时区并填写完整的工作时间。',
+      invalidStatus: '需要检查',
       readyNote: '每一行都会保留本地工作时间，并高亮显示共享的重叠时段。',
       labels: {
         zone: '时区',
@@ -135,6 +154,7 @@ export const STRINGS = {
       removeThirdZone: 'तीसरा समय क्षेत्र हटाएं',
     },
     tool: {
+      eyebrow: 'ओवरलैप योजनाकार',
       heading: 'साझा कार्य घंटे खोजें',
       language: 'भाषा',
       thirdZoneOn: 'तीसरा समय क्षेत्र जोड़ें',
@@ -151,9 +171,18 @@ export const STRINGS = {
     },
     results: {
       heading: 'ओवरलैप परिणाम',
+      readyEyebrow: 'साझा घंटे',
       noOverlap: 'इस तारीख पर कोई ओवरलैप नहीं है',
+      noOverlapTitle: 'इस तारीख पर कोई ओवरलैप नहीं है',
+      noOverlapBody: 'एक शेड्यूल बदलकर देखें या कोई दूसरी तारीख चुनें।',
       invalid: 'समय सीमा के लिए शुरू और समाप्त, दोनों समय चाहिए।',
+      invalidTitle: 'एक शेड्यूल पर ध्यान चाहिए',
+      invalidBody:
+        'जांचें कि शुरू और समाप्त समय सही हैं या इस तारीख पर वह स्थानीय समय मौजूद नहीं है।',
       empty: 'हर सक्रिय कार्ड के लिए समय क्षेत्र और दोनों समय दर्ज करें।',
+      emptyTitle: 'शेड्यूल पूरा करें',
+      emptyBody: 'हर सक्रिय कार्ड के लिए समय क्षेत्र और दोनों समय दर्ज करें।',
+      invalidStatus: 'ध्यान चाहिए',
       readyNote: 'हर पंक्ति स्थानीय कार्य विंडो दिखाती है और साझा ओवरलैप को हाइलाइट करती है।',
       labels: {
         zone: 'समय क्षेत्र',
@@ -189,6 +218,7 @@ export const STRINGS = {
       removeThirdZone: 'Quitar la tercera zona horaria',
     },
     tool: {
+      eyebrow: 'Planificador de solapamientos',
       heading: 'Buscar horas de trabajo compartidas',
       language: 'Idioma',
       thirdZoneOn: 'Añadir una tercera zona horaria',
@@ -205,9 +235,19 @@ export const STRINGS = {
     },
     results: {
       heading: 'Resultados de solapamiento',
+      readyEyebrow: 'Horas compartidas',
       noOverlap: 'No hay solapamiento en esta fecha',
+      noOverlapTitle: 'No hay solapamiento en esta fecha',
+      noOverlapBody: 'Prueba a ajustar un horario o elige otro día.',
       invalid: 'Un rango horario necesita hora de inicio y de fin.',
+      invalidTitle: 'Un horario necesita atención',
+      invalidBody:
+        'Comprueba si la hora de inicio y fin son válidas o si esa hora local no existe en esta fecha.',
       empty: 'Añade una zona horaria y completa ambos extremos del horario en cada tarjeta activa.',
+      emptyTitle: 'Completa el horario',
+      emptyBody:
+        'Añade una zona horaria y completa ambos extremos del horario en cada tarjeta activa.',
+      invalidStatus: 'Requiere atención',
       readyNote:
         'Cada fila mantiene visible la ventana local de trabajo y resalta el solapamiento compartido.',
       labels: {
@@ -244,6 +284,7 @@ export const STRINGS = {
       removeThirdZone: 'إزالة المنطقة الزمنية الثالثة',
     },
     tool: {
+      eyebrow: 'مخطط التداخل',
       heading: 'اعثر على ساعات العمل المشتركة',
       language: 'اللغة',
       thirdZoneOn: 'إضافة منطقة زمنية ثالثة',
@@ -260,9 +301,18 @@ export const STRINGS = {
     },
     results: {
       heading: 'نتائج التداخل',
+      readyEyebrow: 'الساعات المشتركة',
       noOverlap: 'لا يوجد تداخل في هذا التاريخ',
+      noOverlapTitle: 'لا يوجد تداخل في هذا التاريخ',
+      noOverlapBody: 'جرّب تعديل أحد الجداول أو اختر يومًا مختلفًا.',
       invalid: 'نطاق الوقت يحتاج إلى وقت بداية ونهاية.',
+      invalidTitle: 'هناك جدول يحتاج إلى مراجعة',
+      invalidBody:
+        'تحقق من أن وقتي البداية والنهاية صالحان أو أن هذا الوقت المحلي موجود في هذا التاريخ.',
       empty: 'أضف منطقة زمنية واملأ نقطتي البداية والنهاية لكل بطاقة مفعلة.',
+      emptyTitle: 'أكمل الجدول',
+      emptyBody: 'أضف منطقة زمنية واملأ نقطتي البداية والنهاية لكل بطاقة مفعلة.',
+      invalidStatus: 'يحتاج إلى مراجعة',
       readyNote:
         'يحافظ كل صف على نافذة العمل المحلية ويبرز التداخل المشترك.',
       labels: {
@@ -299,6 +349,7 @@ export const STRINGS = {
       removeThirdZone: 'Supprimer le troisième fuseau horaire',
     },
     tool: {
+      eyebrow: 'Planificateur de chevauchement',
       heading: 'Trouver les heures de travail communes',
       language: 'Langue',
       thirdZoneOn: 'Ajouter un troisième fuseau horaire',
@@ -315,9 +366,19 @@ export const STRINGS = {
     },
     results: {
       heading: 'Résultats de chevauchement',
+      readyEyebrow: 'Heures partagées',
       noOverlap: 'Aucun chevauchement à cette date',
+      noOverlapTitle: 'Aucun chevauchement à cette date',
+      noOverlapBody: 'Essayez d’ajuster un horaire ou choisissez un autre jour.',
       invalid: 'Une plage horaire nécessite une heure de début et une heure de fin.',
+      invalidTitle: 'Un horaire nécessite une vérification',
+      invalidBody:
+        'Vérifiez les heures de début et de fin ou si cette heure locale existe bien à cette date.',
       empty: 'Ajoutez un fuseau horaire et renseignez le début et la fin pour chaque carte active.',
+      emptyTitle: 'Complétez le planning',
+      emptyBody:
+        'Ajoutez un fuseau horaire et renseignez le début et la fin pour chaque carte active.',
+      invalidStatus: 'À vérifier',
       readyNote:
         'Chaque ligne conserve la fenêtre de travail locale et met en évidence le chevauchement partagé.',
       labels: {
@@ -354,6 +415,7 @@ export const STRINGS = {
       removeThirdZone: 'Remover o terceiro fuso horário',
     },
     tool: {
+      eyebrow: 'Planejador de sobreposição',
       heading: 'Encontrar horas de trabalho em comum',
       language: 'Idioma',
       thirdZoneOn: 'Adicionar um terceiro fuso horário',
@@ -370,9 +432,19 @@ export const STRINGS = {
     },
     results: {
       heading: 'Resultados da sobreposição',
+      readyEyebrow: 'Horas compartilhadas',
       noOverlap: 'Sem sobreposição nesta data',
+      noOverlapTitle: 'Sem sobreposição nesta data',
+      noOverlapBody: 'Tente ajustar um horário ou escolher outro dia.',
       invalid: 'Um intervalo precisa de horário de início e de fim.',
+      invalidTitle: 'Um horário precisa de atenção',
+      invalidBody:
+        'Verifique se os horários de início e fim são válidos ou se esse horário local existe nesta data.',
       empty: 'Adicione um fuso horário e preencha os dois limites de horário em cada cartão ativo.',
+      emptyTitle: 'Complete o horário',
+      emptyBody:
+        'Adicione um fuso horário e preencha os dois limites de horário em cada cartão ativo.',
+      invalidStatus: 'Precisa de atenção',
       readyNote:
         'Cada linha mantém a janela de trabalho local visível e destaca a sobreposição compartilhada.',
       labels: {
@@ -408,6 +480,7 @@ export const STRINGS = {
       removeThirdZone: '3つ目のタイムゾーンを削除',
     },
     tool: {
+      eyebrow: '重なりプランナー',
       heading: '共有される勤務時間を探す',
       language: '言語',
       thirdZoneOn: '3つ目のタイムゾーンを追加',
@@ -424,9 +497,18 @@ export const STRINGS = {
     },
     results: {
       heading: '重なりの結果',
+      readyEyebrow: '共有時間',
       noOverlap: 'この日付には重なりがありません',
+      noOverlapTitle: 'この日付には重なりがありません',
+      noOverlapBody: '勤務時間を調整するか、別の日付を選んでください。',
       invalid: '時間範囲には開始時刻と終了時刻の両方が必要です。',
+      invalidTitle: '確認が必要な勤務時間があります',
+      invalidBody:
+        '開始時刻と終了時刻を確認するか、この日付にその現地時刻が存在するか確認してください。',
       empty: '有効なカードごとにタイムゾーンと勤務時間の両端を入力してください。',
+      emptyTitle: '勤務時間を入力してください',
+      emptyBody: '有効なカードごとにタイムゾーンと勤務時間の両端を入力してください。',
+      invalidStatus: '要確認',
       readyNote:
         '各行は現地の勤務時間を表示したまま、共有された重なりを強調します。',
       labels: {

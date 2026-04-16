@@ -5,6 +5,13 @@ import {
   formatTimeZoneLabel,
   getSupportedTimeZones,
 } from './overlap.mjs';
+import {
+  DEFAULT_LANGUAGE,
+  SUPPORTED_LANGUAGES,
+  getLanguage,
+  translate,
+} from './ui-copy.mjs';
+import { renderLanguageOptions, renderMasthead } from './ui-view.mjs';
 
 const DEFAULT_ENTRIES = [
   { timeZone: 'America/New_York', startTime: '09:00', endTime: '17:00' },
@@ -12,10 +19,20 @@ const DEFAULT_ENTRIES = [
   { timeZone: 'Asia/Tokyo', startTime: '09:00', endTime: '17:00' },
 ];
 const MINUTES_PER_DAY = 24 * 60;
+const LANGUAGE_STORAGE_KEY = 'timezone-overlap-language';
 
+const mastheadRoot = document.querySelector('#masthead-root');
 const controlCard = document.querySelector('.control-card');
 const resultsPanel = document.querySelector('#results-panel');
 const compatNote = document.querySelector('.compat-note');
+const toolEyebrow = document.querySelector('#tool-eyebrow');
+const toolHeading = document.querySelector('#tool-heading');
+const explanationHeading = document.querySelector('#explanation-heading');
+const explanationCopy = document.querySelector('#explanation-copy');
+
+if (!mastheadRoot) {
+  throw new Error('Missing required masthead root: #masthead-root');
+}
 
 if (!controlCard) {
   throw new Error('Missing required control card: .control-card');
@@ -27,6 +44,22 @@ if (!resultsPanel) {
 
 if (!compatNote) {
   throw new Error('Missing required compatibility note: .compat-note');
+}
+
+if (!toolEyebrow) {
+  throw new Error('Missing required tool eyebrow: #tool-eyebrow');
+}
+
+if (!toolHeading) {
+  throw new Error('Missing required tool heading: #tool-heading');
+}
+
+if (!explanationHeading) {
+  throw new Error('Missing required explanation heading: #explanation-heading');
+}
+
+if (!explanationCopy) {
+  throw new Error('Missing required explanation copy: #explanation-copy');
 }
 
 const today = new Date();
@@ -47,18 +80,31 @@ if (typeof Intl.supportedValuesOf !== 'function') {
 
 const supportedTimeZones = getSupportedTimeZones();
 
+function getInitialLanguage() {
+  try {
+    const storedLanguage = globalThis.localStorage?.getItem(LANGUAGE_STORAGE_KEY);
+    if (SUPPORTED_LANGUAGES.some((language) => language.code === storedLanguage)) {
+      return storedLanguage;
+    }
+  } catch {
+    // Ignore storage access errors and fall back to English.
+  }
+
+  return DEFAULT_LANGUAGE;
+}
+
 const state = {
   date: localDate,
+  language: getInitialLanguage(),
   thirdZoneEnabled: false,
   timeZoneOptions: supportedTimeZones,
   entries: DEFAULT_ENTRIES.map((entry) => ({ ...entry })),
 };
 
 resultsPanel.setAttribute('aria-live', 'polite');
-compatNote.hidden = !usingFallbackTimeZones;
-if (usingFallbackTimeZones) {
-  compatNote.textContent =
-    'This browser does not expose its time zone list, so the picker is using a built-in IANA time zone list.';
+
+function t(key, variables) {
+  return translate(state.language, key, variables);
 }
 
 function escapeHtml(value) {
@@ -78,6 +124,20 @@ function escapeHtml(value) {
         return character;
     }
   });
+}
+
+function setDocumentLanguage() {
+  const language = getLanguage(state.language);
+  document.documentElement.lang = language.code;
+  document.documentElement.dir = language.dir;
+}
+
+function persistLanguage() {
+  try {
+    globalThis.localStorage?.setItem(LANGUAGE_STORAGE_KEY, state.language);
+  } catch {
+    // Ignore storage access errors and continue with in-memory state.
+  }
 }
 
 function getActiveEntries() {
@@ -135,16 +195,17 @@ function renderZoneOptions(selectedTimeZone) {
 
 function renderZoneCard(entry, index) {
   const number = index + 1;
+  const zoneLabel = `${t('fields.zone')} ${number}`;
 
   return `
     <article class="time-zone-card">
       <div class="time-zone-card__header">
-        <span class="zone-card__label">Time zone ${number}</span>
-        <span class="time-zone-card__status" hidden>Needs attention</span>
+        <span class="zone-card__label">${escapeHtml(zoneLabel)}</span>
+        <span class="time-zone-card__status" hidden>${escapeHtml(t('results.invalidStatus'))}</span>
       </div>
       <div class="field-group">
         <label class="field" for="time-zone-${number}">
-          <span>Location</span>
+          <span>${escapeHtml(t('fields.location'))}</span>
           <select id="time-zone-${number}" name="time-zone-${number}" data-entry-index="${index}" data-field="timeZone">
             ${renderZoneOptions(entry.timeZone)}
           </select>
@@ -153,7 +214,7 @@ function renderZoneCard(entry, index) {
       <div class="time-zone-card__times">
         <div class="field-group">
           <label class="field" for="start-time-${number}">
-            <span>Start</span>
+            <span>${escapeHtml(t('fields.start'))}</span>
             <input
               id="start-time-${number}"
               name="start-time-${number}"
@@ -166,7 +227,7 @@ function renderZoneCard(entry, index) {
         </div>
         <div class="field-group">
           <label class="field" for="end-time-${number}">
-            <span>End</span>
+            <span>${escapeHtml(t('fields.end'))}</span>
             <input
               id="end-time-${number}"
               name="end-time-${number}"
@@ -191,7 +252,7 @@ function formatWorkingHours(entry, workingRange) {
 }
 
 function getDurationLabel(range) {
-  const totalMinutes = Math.round((range.endMs - range.startMs) / 60000);
+  const totalMinutes = Math.round((range.endMs - range.startMs) / 60_000);
   const hours = Math.floor(totalMinutes / 60);
   const minutes = totalMinutes % 60;
 
@@ -207,7 +268,11 @@ function getDurationLabel(range) {
 }
 
 function renderReadyState(entries, overlap) {
-  const summary = `${getDurationLabel(overlap)} shared across ${entries.length} time zones on ${state.date}`;
+  const summary = t('summary.ready', {
+    duration: getDurationLabel(overlap),
+    count: entries.length,
+    date: state.date,
+  });
   const rows = entries
     .map((entry) => {
       const workingRange = getWorkingRange(entry);
@@ -217,19 +282,19 @@ function renderReadyState(entries, overlap) {
       return `
         <div class="result-row">
           <div class="result-row__zone result-cell">
-            <span class="result-cell__label">Time zone</span>
+            <span class="result-cell__label">${escapeHtml(t('results.labels.zone'))}</span>
             <strong>${escapeHtml(formatTimeZoneLabel(entry.timeZone))}</strong>
           </div>
           <div class="result-row__hours result-cell">
-            <span class="result-cell__label">Working hours</span>
+            <span class="result-cell__label">${escapeHtml(t('results.labels.workingHours'))}</span>
             <span>${escapeHtml(workingHoursLabel)}</span>
           </div>
           <div class="result-row__overlap result-cell">
-            <span class="result-cell__label">Overlap</span>
+            <span class="result-cell__label">${escapeHtml(t('results.labels.overlap'))}</span>
             <span>${escapeHtml(overlapLabel)}</span>
           </div>
           <div class="result-row__bar result-cell">
-            <span class="result-cell__label">Day view</span>
+            <span class="result-cell__label">${escapeHtml(t('results.labels.dayView'))}</span>
             ${renderTimeBar(workingRange, overlap, entry.timeZone)}
           </div>
         </div>
@@ -240,16 +305,16 @@ function renderReadyState(entries, overlap) {
   return `
     <div class="result-state result-state--ready">
       <div class="result-summary">
-        <p class="eyebrow">Shared hours</p>
+        <p class="eyebrow">${escapeHtml(t('results.readyEyebrow'))}</p>
         <h3>${escapeHtml(summary)}</h3>
-        <p>Each row keeps the local working window visible and highlights the shared overlap.</p>
+        <p>${escapeHtml(t('results.readyNote'))}</p>
       </div>
       <div class="result-grid">
         <div class="result-row result-row--header" aria-hidden="true">
-          <div>Time zone</div>
-          <div>Working hours</div>
-          <div>Overlap</div>
-          <div>Day view</div>
+          <div>${escapeHtml(t('results.labels.zone'))}</div>
+          <div>${escapeHtml(t('results.labels.workingHours'))}</div>
+          <div>${escapeHtml(t('results.labels.overlap'))}</div>
+          <div>${escapeHtml(t('results.labels.dayView'))}</div>
         </div>
         ${rows}
       </div>
@@ -264,26 +329,54 @@ function renderResultState(entries, result) {
     case 'no-overlap':
       return `
         <div class="result-state">
-          <p class="eyebrow">No overlap on this date</p>
-          <p>Try adjusting one schedule or choose a different day.</p>
+          <p class="eyebrow">${escapeHtml(t('results.noOverlapTitle'))}</p>
+          <p>${escapeHtml(t('results.noOverlapBody'))}</p>
         </div>
       `;
     case 'invalid':
       return `
         <div class="result-state">
-          <p class="eyebrow">One schedule needs attention</p>
-          <p>Check for matching start and end times or a local time that does not exist on this date.</p>
+          <p class="eyebrow">${escapeHtml(t('results.invalidTitle'))}</p>
+          <p>${escapeHtml(t('results.invalidBody'))}</p>
         </div>
       `;
     case 'incomplete':
     default:
       return `
         <div class="result-state">
-          <p class="eyebrow">Complete the schedule</p>
-          <p>Add a time zone and both working-hour endpoints for every active card.</p>
+          <p class="eyebrow">${escapeHtml(t('results.emptyTitle'))}</p>
+          <p>${escapeHtml(t('results.emptyBody'))}</p>
         </div>
       `;
   }
+}
+
+function renderStaticCopy() {
+  const language = getLanguage(state.language);
+  const languageOptionsHtml = renderLanguageOptions({
+    languages: SUPPORTED_LANGUAGES,
+    selectedLanguage: language.code,
+  });
+
+  mastheadRoot.innerHTML = renderMasthead({
+    language,
+    masthead: {
+      eyebrow: t('masthead.eyebrow'),
+      title: t('masthead.title'),
+      copy: t('masthead.copy'),
+    },
+    chips: ['chips.twoZones', 'chips.threeZones', 'chips.localContext'].map((key) => t(key)),
+    languageLabel: t('tool.language'),
+    languageOptionsHtml,
+  });
+
+  toolEyebrow.textContent = t('tool.eyebrow');
+  toolHeading.textContent = t('tool.heading');
+  explanationHeading.textContent = t('explanation.heading');
+  explanationCopy.textContent = t('explanation.body');
+  resultsPanel.setAttribute('aria-label', t('results.heading'));
+  compatNote.hidden = !usingFallbackTimeZones;
+  compatNote.textContent = usingFallbackTimeZones ? t('tool.compatNote') : '';
 }
 
 function renderControls() {
@@ -291,7 +384,7 @@ function renderControls() {
   controlCard.innerHTML = `
     <div class="field-group">
       <label class="field" for="schedule-date">
-        <span>Date</span>
+        <span>${escapeHtml(t('fields.date'))}</span>
         <input id="schedule-date" name="schedule-date" type="date" value="${escapeHtml(state.date)}" />
       </label>
     </div>
@@ -300,7 +393,7 @@ function renderControls() {
     </div>
     <div class="tool-shell__actions">
       <button class="toggle-button" type="button" data-action="toggle-third-zone">
-        ${state.thirdZoneEnabled ? 'Remove the third time zone' : 'Add a third time zone'}
+        ${escapeHtml(state.thirdZoneEnabled ? t('tool.thirdZoneOff') : t('tool.thirdZoneOn'))}
       </button>
     </div>
   `;
@@ -314,7 +407,7 @@ function syncInvalidState(invalidIndex) {
     const status = card.querySelector?.('.time-zone-card__status');
     if (status) {
       status.hidden = invalidIndex !== index;
-      status.textContent = 'Needs attention';
+      status.textContent = t('results.invalidStatus');
     }
   });
 }
@@ -354,6 +447,13 @@ function handleFieldChange(event) {
   }
 }
 
+function rerenderPage() {
+  setDocumentLanguage();
+  renderStaticCopy();
+  renderControls();
+  renderResults();
+}
+
 controlCard.addEventListener('input', handleFieldChange);
 controlCard.addEventListener('change', (event) => {
   const target = event.target;
@@ -386,5 +486,15 @@ controlCard.addEventListener('click', (event) => {
   renderResults();
 });
 
-renderControls();
-renderResults();
+mastheadRoot.addEventListener('change', (event) => {
+  const target = event.target;
+  if (!(target instanceof HTMLSelectElement) || target.id !== 'ui-language') {
+    return;
+  }
+
+  state.language = getLanguage(target.value).code;
+  persistLanguage();
+  rerenderPage();
+});
+
+rerenderPage();
