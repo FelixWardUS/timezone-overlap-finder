@@ -12,7 +12,7 @@ A showcase-style overlap finder for comparing shared working hours across global
 
 ## Demo
 
-  Live demo: https://FelixWardUS.github.io/timezone-overlap-finder/
+  Live demo: [here](https://FelixWardUS.github.io/timezone-overlap-finder/ "Title")
 
 ## Screenshot
 
