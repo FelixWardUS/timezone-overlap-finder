@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Timezone Overlap Finder</title>
+    <meta
+      name="description"
+      content="Find overlapping working hours across two or three time zones, including overnight schedules and date-sensitive shifts."
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <p class="eyebrow">Productivity tool</p>
+        <h1>Timezone Overlap Finder</h1>
+        <p class="hero-copy">
+          Find overlapping working hours across two or three time zones,
+          including overnight schedules and date-sensitive shifts, without
+          losing the local-time context that makes planning possible.
+        </p>
+
+        <ul class="feature-strip" aria-label="Highlights">
+          <li>2&ndash;3 time zones</li>
+          <li>Overnight schedules</li>
+          <li>Local-time overlap view</li>
+        </ul>
+      </header>
+
+      <main>
+        <section class="tool-shell" aria-labelledby="tool-heading">
+          <div class="tool-shell__intro">
+            <div>
+              <p class="eyebrow">Overlap planner</p>
+              <h2 id="tool-heading">Find shared working hours</h2>
+            </div>
+            <p class="compat-note">
+              Some browsers do not expose the full IANA time zone list. When
+              that happens, this tool will stay usable with the supported
+              subset instead of breaking.
+            </p>
+          </div>
+
+          <div class="tool-shell__layout">
+            <section class="control-card" aria-label="Schedule controls">
+              <label class="field" for="schedule-date">
+                <span>Date</span>
+                <input id="schedule-date" name="schedule-date" type="date" />
+              </label>
+
+              <div class="zone-grid" aria-label="Time zone cards">
+                <article class="zone-card">
+                  <span class="zone-card__label">Time zone 1</span>
+                  <strong>Configure next task</strong>
+                  <p>Local working hours will anchor the overlap window.</p>
+                </article>
+                <article class="zone-card">
+                  <span class="zone-card__label">Time zone 2</span>
+                  <strong>Configure next task</strong>
+                  <p>Night shifts and late starts are handled in the planner.</p>
+                </article>
+                <article class="zone-card">
+                  <span class="zone-card__label">Time zone 3</span>
+                  <strong>Optional third zone</strong>
+                  <p>Keep the shell ready for cross-region planning.</p>
+                </article>
+              </div>
+
+              <button class="toggle-button" type="button">
+                Toggle local-time view
+              </button>
+            </section>
+
+            <section class="results-panel" aria-label="Overlap results">
+              <div id="results-panel" class="results-panel__content"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="explanation" aria-labelledby="explanation-heading">
+          <h2 id="explanation-heading">How this works</h2>
+          <p>
+            The next task will wire the form to actual time zone selection and
+            overlap calculations. This shell sets up the page structure,
+            visual rhythm, and loading state so the interactive version can be
+            dropped in without changing the layout.
+          </p>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="./app.mjs"></script>
+  </body>
+</html>
