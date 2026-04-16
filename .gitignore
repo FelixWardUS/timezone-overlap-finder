@@ -1,0 +1,20 @@
+# Local brainstorming/mockup artifacts
+.superpowers/
+docs/superpowers/
+
+# Environment files
+.env
+.env.*
+
+# Logs
+*.log
+
+# Editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
