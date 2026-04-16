@@ -151,6 +151,20 @@ test('formatRangeForZone adds date context when local dates differ', () => {
   });
 });
 
+test('formatRangeForZone uses the requested non-English locale for displayed ranges', () => {
+  const formatted = formatRangeForZone(
+    {
+      startMs: Date.parse('2026-01-15T13:00:00.000Z'),
+      endMs: Date.parse('2026-01-15T21:00:00.000Z'),
+    },
+    'Asia/Tokyo',
+    'ja-JP',
+  );
+
+  assert.doesNotMatch(formatted.label, /\b(?:Jan|AM|PM)\b/);
+  assert.match(formatted.label, /月/);
+});
+
 test('intersectRanges returns only the shared portion of every range', () => {
   const overlap = intersectRanges([
     { startMs: 100, endMs: 200 },

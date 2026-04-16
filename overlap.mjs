@@ -2,7 +2,6 @@ const DATE_RE = /^(\d{4})-(\d{2})-(\d{2})$/;
 const TIME_RE = /^(\d{2}):(\d{2})$/;
 const MINUTES_PER_DAY = 24 * 60;
 const MAX_FIXED_POINT_ITERATIONS = 8;
-const MONTH_LABELS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const FALLBACK_TIME_ZONES = [
   'Africa/Abidjan',
   'Africa/Accra',
@@ -591,19 +590,20 @@ export function buildWrappedSegments(range, timeZone) {
   return segments;
 }
 
-function formatTime(value, timeZone) {
-  return new Intl.DateTimeFormat('en-US', {
+function formatTime(value, timeZone, locale = 'en-US') {
+  return new Intl.DateTimeFormat(locale, {
     timeZone,
-    calendar: 'iso8601',
     hour: 'numeric',
     minute: '2-digit',
-    hour12: true,
   }).format(new Date(value));
 }
 
-function formatMonthDay(value, timeZone) {
-  const parts = getZonedParts(value, timeZone);
-  return `${MONTH_LABELS[parts.month - 1]} ${parts.day}`;
+function formatMonthDay(value, timeZone, locale = 'en-US') {
+  return new Intl.DateTimeFormat(locale, {
+    timeZone,
+    month: 'short',
+    day: 'numeric',
+  }).format(new Date(value));
 }
 
 function canUseTimeZone(timeZone) {
@@ -638,15 +638,15 @@ export function formatTimeZoneLabel(timeZone) {
   return timeZone.replaceAll('/', ' / ').replaceAll('_', ' ');
 }
 
-export function formatRangeForZone(range, timeZone) {
-  const start = formatTime(range.startMs, timeZone);
-  const end = formatTime(range.endMs, timeZone);
+export function formatRangeForZone(range, timeZone, locale = 'en-US') {
+  const start = formatTime(range.startMs, timeZone, locale);
+  const end = formatTime(range.endMs, timeZone, locale);
   const startParts = getZonedParts(range.startMs, timeZone);
   const endParts = getZonedParts(range.endMs, timeZone);
   const spansLocalDates =
     startParts.year !== endParts.year || startParts.month !== endParts.month || startParts.day !== endParts.day;
   const label = spansLocalDates
-    ? `${formatMonthDay(range.startMs, timeZone)}, ${start} - ${formatMonthDay(range.endMs, timeZone)}, ${end}`
+    ? `${formatMonthDay(range.startMs, timeZone, locale)}, ${start} - ${formatMonthDay(range.endMs, timeZone, locale)}, ${end}`
     : `${start} - ${end}`;
 
   return {

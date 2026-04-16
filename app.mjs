@@ -253,7 +253,7 @@ function renderZoneCard(entry, index) {
 
 function formatWorkingHours(entry, workingRange) {
   if (workingRange) {
-    return formatRangeForZone(workingRange, entry.timeZone).label;
+    return formatRangeForZone(workingRange, entry.timeZone, state.language).label;
   }
 
   return `${entry.startTime} - ${entry.endTime}`;
@@ -285,7 +285,7 @@ function renderReadyState(entries, overlap) {
     .map((entry) => {
       const workingRange = getWorkingRange(entry);
       const workingHoursLabel = formatWorkingHours(entry, workingRange);
-      const overlapLabel = formatRangeForZone(overlap, entry.timeZone).label;
+      const overlapLabel = formatRangeForZone(overlap, entry.timeZone, state.language).label;
 
       return `
         <div class="result-row">
