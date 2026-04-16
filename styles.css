@@ -142,11 +142,23 @@ body::before {
   align-items: stretch;
 }
 
-.control-card,
-.results-panel {
+.control-card {
   border-radius: 24px;
   border: 1px solid var(--border);
   background: var(--panel-strong);
+}
+
+.results-panel {
+  padding: 18px;
+  min-height: 100%;
+  display: grid;
+  place-items: center;
+  border-radius: 24px;
+  border: 1px solid var(--border);
+  background: var(--panel-strong);
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.65;
 }
 
 .control-card {
@@ -242,19 +254,6 @@ body::before {
 .toggle-button:focus {
   outline: 3px solid var(--accent-soft);
   outline-offset: 2px;
-}
-
-.results-panel {
-  padding: 18px;
-  min-height: 100%;
-  display: grid;
-  place-items: center;
-  border-radius: 24px;
-  border: 1px solid var(--border);
-  background: var(--panel-strong);
-  color: var(--muted);
-  text-align: center;
-  line-height: 1.65;
 }
 
 .results-panel.is-loading {
