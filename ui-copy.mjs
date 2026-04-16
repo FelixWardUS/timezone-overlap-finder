@@ -43,6 +43,7 @@ export const STRINGS = {
     fields: {
       date: 'Date',
       zone: 'Time zone',
+      zoneNumber: 'Time zone {number}',
       location: 'Location',
       start: 'Start',
       end: 'End',
@@ -69,6 +70,12 @@ export const STRINGS = {
         overlap: 'Overlap',
         dayView: 'Day view',
       },
+      scale: {
+        midnight: '12 AM',
+        sixMorning: '6 AM',
+        noon: '12 PM',
+        sixEvening: '6 PM',
+      },
     },
     explanation: {
       heading: 'How this works',
@@ -77,6 +84,11 @@ export const STRINGS = {
     },
     summary: {
       ready: '{duration} shared across {count} time zones on {date}',
+      duration: {
+        hoursMinutes: '{hours}h {minutes}m',
+        hoursOnly: '{hours}h',
+        minutesOnly: '{minutes}m',
+      },
     },
   },
   'zh-CN': {
@@ -108,6 +120,7 @@ export const STRINGS = {
     fields: {
       date: '日期',
       zone: '时区',
+      zoneNumber: '时区 {number}',
       location: '地点',
       start: '开始',
       end: '结束',
@@ -132,6 +145,12 @@ export const STRINGS = {
         overlap: '重叠',
         dayView: '日视图',
       },
+      scale: {
+        midnight: '凌晨 12 点',
+        sixMorning: '上午 6 点',
+        noon: '中午 12 点',
+        sixEvening: '下午 6 点',
+      },
     },
     explanation: {
       heading: '工作原理',
@@ -139,6 +158,11 @@ export const STRINGS = {
     },
     summary: {
       ready: '{date} 有 {count} 个时区共享 {duration}',
+      duration: {
+        hoursMinutes: '{hours}小时 {minutes}分钟',
+        hoursOnly: '{hours}小时',
+        minutesOnly: '{minutes}分钟',
+      },
     },
   },
   hi: {
@@ -171,6 +195,7 @@ export const STRINGS = {
     fields: {
       date: 'तारीख',
       zone: 'समय क्षेत्र',
+      zoneNumber: 'समय क्षेत्र {number}',
       location: 'स्थान',
       start: 'शुरू',
       end: 'समाप्त',
@@ -196,6 +221,12 @@ export const STRINGS = {
         overlap: 'ओवरलैप',
         dayView: 'दिन दृश्य',
       },
+      scale: {
+        midnight: 'रात 12 बजे',
+        sixMorning: 'सुबह 6 बजे',
+        noon: 'दोपहर 12 बजे',
+        sixEvening: 'शाम 6 बजे',
+      },
     },
     explanation: {
       heading: 'यह कैसे काम करता है',
@@ -204,6 +235,11 @@ export const STRINGS = {
     },
     summary: {
       ready: '{date} को {count} समय क्षेत्रों में {duration} साझा है',
+      duration: {
+        hoursMinutes: '{hours}घं {minutes}मि',
+        hoursOnly: '{hours}घं',
+        minutesOnly: '{minutes}मि',
+      },
     },
   },
   es: {
@@ -237,6 +273,7 @@ export const STRINGS = {
     fields: {
       date: 'Fecha',
       zone: 'Zona horaria',
+      zoneNumber: 'Zona horaria {number}',
       location: 'Ubicación',
       start: 'Inicio',
       end: 'Fin',
@@ -264,6 +301,12 @@ export const STRINGS = {
         overlap: 'Solapamiento',
         dayView: 'Vista diaria',
       },
+      scale: {
+        midnight: '12 a. m.',
+        sixMorning: '6 a. m.',
+        noon: '12 p. m.',
+        sixEvening: '6 p. m.',
+      },
     },
     explanation: {
       heading: 'Cómo funciona',
@@ -272,6 +315,11 @@ export const STRINGS = {
     },
     summary: {
       ready: '{duration} compartidas entre {count} zonas horarias el {date}',
+      duration: {
+        hoursMinutes: '{hours} h {minutes} min',
+        hoursOnly: '{hours} h',
+        minutesOnly: '{minutes} min',
+      },
     },
   },
   ar: {
@@ -305,6 +353,7 @@ export const STRINGS = {
     fields: {
       date: 'التاريخ',
       zone: 'المنطقة الزمنية',
+      zoneNumber: 'المنطقة الزمنية {number}',
       location: 'الموقع',
       start: 'البداية',
       end: 'النهاية',
@@ -331,6 +380,12 @@ export const STRINGS = {
         overlap: 'التداخل',
         dayView: 'عرض اليوم',
       },
+      scale: {
+        midnight: '12 ص',
+        sixMorning: '6 ص',
+        noon: '12 م',
+        sixEvening: '6 م',
+      },
     },
     explanation: {
       heading: 'كيف يعمل هذا',
@@ -339,6 +394,11 @@ export const STRINGS = {
     },
     summary: {
       ready: '{duration} مشتركة عبر {count} مناطق زمنية في {date}',
+      duration: {
+        hoursMinutes: '{hours} س {minutes} د',
+        hoursOnly: '{hours} س',
+        minutesOnly: '{minutes} د',
+      },
     },
   },
   fr: {
@@ -372,6 +432,7 @@ export const STRINGS = {
     fields: {
       date: 'Date',
       zone: 'Fuseau horaire',
+      zoneNumber: 'Fuseau horaire {number}',
       location: 'Lieu',
       start: 'Début',
       end: 'Fin',
@@ -399,6 +460,12 @@ export const STRINGS = {
         overlap: 'Chevauchement',
         dayView: 'Vue jour',
       },
+      scale: {
+        midnight: '0 h',
+        sixMorning: '6 h',
+        noon: '12 h',
+        sixEvening: '18 h',
+      },
     },
     explanation: {
       heading: 'Comment ça marche',
@@ -407,6 +474,11 @@ export const STRINGS = {
     },
     summary: {
       ready: '{duration} partagées sur {count} fuseaux horaires le {date}',
+      duration: {
+        hoursMinutes: '{hours} h {minutes} min',
+        hoursOnly: '{hours} h',
+        minutesOnly: '{minutes} min',
+      },
     },
   },
   pt: {
@@ -440,6 +512,7 @@ export const STRINGS = {
     fields: {
       date: 'Data',
       zone: 'Fuso horário',
+      zoneNumber: 'Fuso horário {number}',
       location: 'Local',
       start: 'Início',
       end: 'Fim',
@@ -467,6 +540,12 @@ export const STRINGS = {
         overlap: 'Sobreposição',
         dayView: 'Visão do dia',
       },
+      scale: {
+        midnight: '0h',
+        sixMorning: '6h',
+        noon: '12h',
+        sixEvening: '18h',
+      },
     },
     explanation: {
       heading: 'Como funciona',
@@ -475,6 +554,11 @@ export const STRINGS = {
     },
     summary: {
       ready: '{duration} compartilhadas entre {count} fusos horários em {date}',
+      duration: {
+        hoursMinutes: '{hours} h {minutes} min',
+        hoursOnly: '{hours} h',
+        minutesOnly: '{minutes} min',
+      },
     },
   },
   ja: {
@@ -507,6 +591,7 @@ export const STRINGS = {
     fields: {
       date: '日付',
       zone: 'タイムゾーン',
+      zoneNumber: 'タイムゾーン {number}',
       location: '場所',
       start: '開始',
       end: '終了',
@@ -533,6 +618,12 @@ export const STRINGS = {
         overlap: '重なり',
         dayView: '日表示',
       },
+      scale: {
+        midnight: '午前0時',
+        sixMorning: '午前6時',
+        noon: '正午',
+        sixEvening: '午後6時',
+      },
     },
     explanation: {
       heading: '仕組み',
@@ -541,6 +632,11 @@ export const STRINGS = {
     },
     summary: {
       ready: '{date} に {count} 個のタイムゾーンで {duration} を共有',
+      duration: {
+        hoursMinutes: '{hours}時間 {minutes}分',
+        hoursOnly: '{hours}時間',
+        minutesOnly: '{minutes}分',
+      },
     },
   },
 };

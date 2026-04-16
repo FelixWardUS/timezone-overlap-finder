@@ -55,6 +55,12 @@ test('translate exposes the page-shell copy needed by app rendering', () => {
   assert.equal(translate('en', 'tool.eyebrow'), 'Overlap planner');
   assert.equal(translate('en', 'tool.controlsLabel'), 'Schedule controls');
   assert.equal(translate('en', 'tool.zoneGridLabel'), 'Time zone cards');
+  assert.equal(translate('en', 'fields.zoneNumber', { number: '3' }), 'Time zone 3');
+  assert.equal(translate('en', 'results.scale.noon'), '12 PM');
+  assert.equal(
+    translate('en', 'summary.duration.hoursMinutes', { hours: '2', minutes: '30' }),
+    '2h 30m',
+  );
   assert.equal(translate('en', 'results.readyEyebrow'), 'Shared hours');
   assert.equal(translate('en', 'results.emptyTitle'), 'Complete the schedule');
   assert.equal(

@@ -154,7 +154,15 @@ function getWorkingRange(entry) {
 }
 
 function buildScaleLabels() {
-  return ['12 AM', '6 AM', '12 PM', '6 PM', '12 AM']
+  const labels = [
+    t('results.scale.midnight'),
+    t('results.scale.sixMorning'),
+    t('results.scale.noon'),
+    t('results.scale.sixEvening'),
+    t('results.scale.midnight'),
+  ];
+
+  return labels
     .map((label) => `<span>${escapeHtml(label)}</span>`)
     .join('');
 }
@@ -195,7 +203,7 @@ function renderZoneOptions(selectedTimeZone) {
 
 function renderZoneCard(entry, index) {
   const number = index + 1;
-  const zoneLabel = `${t('fields.zone')} ${number}`;
+  const zoneLabel = t('fields.zoneNumber', { number });
 
   return `
     <article class="time-zone-card">
@@ -257,14 +265,14 @@ function getDurationLabel(range) {
   const minutes = totalMinutes % 60;
 
   if (hours > 0 && minutes > 0) {
-    return `${hours}h ${minutes}m`;
+    return t('summary.duration.hoursMinutes', { hours, minutes });
   }
 
   if (hours > 0) {
-    return `${hours}h`;
+    return t('summary.duration.hoursOnly', { hours });
   }
 
-  return `${minutes}m`;
+  return t('summary.duration.minutesOnly', { minutes });
 }
 
 function renderReadyState(entries, overlap) {
