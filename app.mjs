@@ -6,7 +6,6 @@ import {
   getSupportedTimeZones,
 } from './overlap.mjs';
 
-const FALLBACK_TIME_ZONES = ['America/New_York', 'Europe/London', 'Asia/Tokyo', 'Australia/Sydney'];
 const DEFAULT_ENTRIES = [
   { timeZone: 'America/New_York', startTime: '09:00', endTime: '17:00' },
   { timeZone: 'Europe/London', startTime: '09:00', endTime: '17:00' },
@@ -35,19 +34,32 @@ const localDate = new Date(today.getTime() - today.getTimezoneOffset() * 60_000)
   .toISOString()
   .slice(0, 10);
 
+let usingFallbackTimeZones = false;
+if (typeof Intl.supportedValuesOf !== 'function') {
+  usingFallbackTimeZones = true;
+} else {
+  try {
+    Intl.supportedValuesOf('timeZone');
+  } catch {
+    usingFallbackTimeZones = true;
+  }
+}
+
 const supportedTimeZones = getSupportedTimeZones();
-const usingFallbackTimeZones = supportedTimeZones.length === 0;
-const timeZoneOptions = usingFallbackTimeZones ? FALLBACK_TIME_ZONES : supportedTimeZones;
 
 const state = {
   date: localDate,
   thirdZoneEnabled: false,
-  timeZoneOptions,
+  timeZoneOptions: supportedTimeZones,
   entries: DEFAULT_ENTRIES.map((entry) => ({ ...entry })),
 };
 
 resultsPanel.setAttribute('aria-live', 'polite');
 compatNote.hidden = !usingFallbackTimeZones;
+if (usingFallbackTimeZones) {
+  compatNote.textContent =
+    'This browser does not expose its time zone list, so the picker is using a built-in IANA time zone list.';
+}
 
 function escapeHtml(value) {
   return String(value).replace(/[&<>"']/g, (character) => {
@@ -66,22 +78,6 @@ function escapeHtml(value) {
         return character;
     }
   });
-}
-
-function formatClockLabel(time) {
-  if (!time) {
-    return 'Not set';
-  }
-
-  const [hoursText = '0', minutesText = '0'] = time.split(':');
-  const date = new Date(Date.UTC(2026, 0, 1, Number(hoursText), Number(minutesText)));
-
-  return new Intl.DateTimeFormat('en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true,
-    timeZone: 'UTC',
-  }).format(date);
 }
 
 function getActiveEntries() {
@@ -186,8 +182,12 @@ function renderZoneCard(entry, index) {
   `;
 }
 
-function formatWorkingHours(entry) {
-  return `${formatClockLabel(entry.startTime)} - ${formatClockLabel(entry.endTime)}`;
+function formatWorkingHours(entry, workingRange) {
+  if (workingRange) {
+    return formatRangeForZone(workingRange, entry.timeZone).label;
+  }
+
+  return `${entry.startTime} - ${entry.endTime}`;
 }
 
 function getDurationLabel(range) {
@@ -211,6 +211,7 @@ function renderReadyState(entries, overlap) {
   const rows = entries
     .map((entry) => {
       const workingRange = getWorkingRange(entry);
+      const workingHoursLabel = formatWorkingHours(entry, workingRange);
       const overlapLabel = formatRangeForZone(overlap, entry.timeZone).label;
 
       return `
@@ -221,7 +222,7 @@ function renderReadyState(entries, overlap) {
           </div>
           <div class="result-row__hours result-cell">
             <span class="result-cell__label">Working hours</span>
-            <span>${escapeHtml(formatWorkingHours(entry))}</span>
+            <span>${escapeHtml(workingHoursLabel)}</span>
           </div>
           <div class="result-row__overlap result-cell">
             <span class="result-cell__label">Overlap</span>
