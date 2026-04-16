@@ -137,16 +137,14 @@ function renderZoneOptions(selectedTimeZone) {
     .join('');
 }
 
-function renderZoneCard(entry, index, invalid) {
+function renderZoneCard(entry, index) {
   const number = index + 1;
-  const invalidClass = invalid ? ' time-zone-card--invalid' : '';
-  const statusHidden = invalid ? '' : ' hidden';
 
   return `
-    <article class="time-zone-card${invalidClass}">
+    <article class="time-zone-card">
       <div class="time-zone-card__header">
         <span class="zone-card__label">Time zone ${number}</span>
-        <span class="time-zone-card__status"${statusHidden}>Needs attention</span>
+        <span class="time-zone-card__status" hidden>Needs attention</span>
       </div>
       <div class="field-group">
         <label class="field" for="time-zone-${number}">
@@ -297,7 +295,7 @@ function renderControls() {
       </label>
     </div>
     <div class="zone-grid" aria-label="Time zone cards">
-      ${activeEntries.map((entry, index) => renderZoneCard(entry, index, false)).join('')}
+      ${activeEntries.map((entry, index) => renderZoneCard(entry, index)).join('')}
     </div>
     <div class="tool-shell__actions">
       <button class="toggle-button" type="button" data-action="toggle-third-zone">
@@ -336,7 +334,7 @@ function updateEntry(index, field, value) {
 
 function handleFieldChange(event) {
   const target = event.target;
-  if (!(target instanceof HTMLInputElement || target instanceof HTMLSelectElement)) {
+  if (!(target instanceof HTMLInputElement)) {
     return;
   }
 
@@ -356,6 +354,20 @@ function handleFieldChange(event) {
 }
 
 controlCard.addEventListener('input', handleFieldChange);
+controlCard.addEventListener('change', (event) => {
+  const target = event.target;
+  if (!(target instanceof HTMLSelectElement)) {
+    return;
+  }
+
+  const index = Number(target.dataset.entryIndex);
+  const field = target.dataset.field;
+
+  if (Number.isInteger(index) && field) {
+    updateEntry(index, field, target.value);
+    renderResults();
+  }
+});
 
 controlCard.addEventListener('click', (event) => {
   const target = event.target;

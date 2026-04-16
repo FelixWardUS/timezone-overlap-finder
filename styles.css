@@ -485,6 +485,10 @@ body::before {
   .result-cell__label {
     display: block;
   }
+
+  .result-row--header {
+    display: none;
+  }
 }
 
 @media (max-width: 640px) {
