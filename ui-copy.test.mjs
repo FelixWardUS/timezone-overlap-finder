@@ -4,8 +4,20 @@ import {
   DEFAULT_LANGUAGE,
   SUPPORTED_LANGUAGES,
   getLanguage,
+  STRINGS,
   translate,
 } from './ui-copy.mjs';
+
+function collectLeafPaths(node, prefix = '') {
+  return Object.entries(node).flatMap(([key, value]) => {
+    const path = prefix ? `${prefix}.${key}` : key;
+    if (value && typeof value === 'object' && !Array.isArray(value)) {
+      return collectLeafPaths(value, path);
+    }
+
+    return [path];
+  });
+}
 
 test('supported languages stay in the approved order', () => {
   assert.deepEqual(
@@ -41,5 +53,18 @@ test('translate returns Chinese UI copy for known keys', () => {
 
 test('supported locales throw when a translation key is missing', () => {
   assert.equal(translate('en', 'tool.language'), 'Language');
-  assert.throws(() => translate('zh-CN', 'tool.language'), /Missing translation/);
+  assert.throws(() => translate('zh-CN', 'tool.notARealKey'), /Missing translation/);
+});
+
+test('supported locales keep the English dictionary shape', () => {
+  const englishLeafPaths = collectLeafPaths(STRINGS.en);
+
+  for (const language of SUPPORTED_LANGUAGES) {
+    const locale = STRINGS[language.code];
+
+    for (const path of englishLeafPaths) {
+      const value = path.split('.').reduce((current, part) => current?.[part], locale);
+      assert.equal(typeof value, 'string', `${language.code} missing ${path}`);
+    }
+  }
 });

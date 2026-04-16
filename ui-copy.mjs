@@ -11,7 +11,7 @@ export const SUPPORTED_LANGUAGES = [
   { code: 'ja', label: '日本語', dir: 'ltr' },
 ];
 
-const STRINGS = {
+export const STRINGS = {
   en: {
     masthead: {
       eyebrow: 'Productivity tool',
@@ -85,6 +85,7 @@ const STRINGS = {
     },
     tool: {
       heading: '查找共享工作时间',
+      language: '语言',
       thirdZoneOn: '添加第三个时区',
       thirdZoneOff: '移除第三个时区',
       compatNote: '某些浏览器不会提供完整的 IANA 时区列表。此时会使用内置的备用列表。',
@@ -135,6 +136,7 @@ const STRINGS = {
     },
     tool: {
       heading: 'साझा कार्य घंटे खोजें',
+      language: 'भाषा',
       thirdZoneOn: 'तीसरा समय क्षेत्र जोड़ें',
       thirdZoneOff: 'तीसरा समय क्षेत्र हटाएं',
       compatNote:
@@ -188,6 +190,7 @@ const STRINGS = {
     },
     tool: {
       heading: 'Buscar horas de trabajo compartidas',
+      language: 'Idioma',
       thirdZoneOn: 'Añadir una tercera zona horaria',
       thirdZoneOff: 'Quitar la tercera zona horaria',
       compatNote:
@@ -242,6 +245,7 @@ const STRINGS = {
     },
     tool: {
       heading: 'اعثر على ساعات العمل المشتركة',
+      language: 'اللغة',
       thirdZoneOn: 'إضافة منطقة زمنية ثالثة',
       thirdZoneOff: 'إزالة المنطقة الزمنية الثالثة',
       compatNote:
@@ -296,6 +300,7 @@ const STRINGS = {
     },
     tool: {
       heading: 'Trouver les heures de travail communes',
+      language: 'Langue',
       thirdZoneOn: 'Ajouter un troisième fuseau horaire',
       thirdZoneOff: 'Supprimer le troisième fuseau horaire',
       compatNote:
@@ -350,6 +355,7 @@ const STRINGS = {
     },
     tool: {
       heading: 'Encontrar horas de trabalho em comum',
+      language: 'Idioma',
       thirdZoneOn: 'Adicionar um terceiro fuso horário',
       thirdZoneOff: 'Remover o terceiro fuso horário',
       compatNote:
@@ -403,6 +409,7 @@ const STRINGS = {
     },
     tool: {
       heading: '共有される勤務時間を探す',
+      language: '言語',
       thirdZoneOn: '3つ目のタイムゾーンを追加',
       thirdZoneOff: '3つ目のタイムゾーンを削除',
       compatNote:
