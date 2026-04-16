@@ -38,3 +38,8 @@ test('translate returns Chinese UI copy for known keys', () => {
   assert.equal(translate('zh-CN', 'toolbar.addThirdZone'), '添加第三个时区');
   assert.notEqual(translate('zh-CN', 'toolbar.addThirdZone'), translate('en', 'toolbar.addThirdZone'));
 });
+
+test('supported locales throw when a translation key is missing', () => {
+  assert.equal(translate('en', 'tool.language'), 'Language');
+  assert.throws(() => translate('zh-CN', 'tool.language'), /Missing translation/);
+});

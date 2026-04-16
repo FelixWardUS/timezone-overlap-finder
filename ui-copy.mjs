@@ -31,6 +31,7 @@ const STRINGS = {
     },
     tool: {
       heading: 'Find shared working hours',
+      language: 'Language',
       thirdZoneOn: 'Add a third time zone',
       thirdZoneOff: 'Remove the third time zone',
       compatNote:
@@ -439,6 +440,10 @@ const STRINGS = {
   },
 };
 
+const DEFAULT_LANGUAGE_ENTRY = SUPPORTED_LANGUAGES.find(
+  (language) => language.code === DEFAULT_LANGUAGE,
+);
+
 function interpolate(template, variables = {}) {
   return template.replace(/\{(\w+)\}/g, (_, key) => String(variables[key] ?? ''));
 }
@@ -448,14 +453,13 @@ function getPath(source, key) {
 }
 
 export function getLanguage(code) {
-  return SUPPORTED_LANGUAGES.find((language) => language.code === code) ?? SUPPORTED_LANGUAGES[0];
+  return SUPPORTED_LANGUAGES.find((language) => language.code === code) ?? DEFAULT_LANGUAGE_ENTRY;
 }
 
 export function translate(code, key, variables) {
   const languageCode = getLanguage(code).code;
   const source = STRINGS[languageCode] ?? STRINGS[DEFAULT_LANGUAGE];
-  const fallback = STRINGS[DEFAULT_LANGUAGE];
-  const value = getPath(source, key) ?? getPath(fallback, key);
+  const value = getPath(source, key);
 
   if (typeof value !== 'string') {
     throw new Error(`Missing translation for ${languageCode}:${key}`);
